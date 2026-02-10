@@ -13,13 +13,23 @@
             color: white;
         }
 
-        /* ARKA PLAN */
+        /* NORMAL ARKA PLAN (Bulanık) */
         #bg-blur {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
             filter: blur(30px) brightness(0.4);
-            transition: all 1s ease-in-out;
+            transition: opacity 0.5s ease;
             z-index: 1;
+        }
+
+        /* HIZLI AKAN MESAJ ARKA PLANI (Flashback) */
+        #chat-flash-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0; /* Normalde gizli */
+            z-index: 1;
+            filter: brightness(0.3) grayscale(50%); /* Yazılar okunsun diye kararttım */
+            transition: opacity 0.5s ease;
         }
 
         /* ANA KAPLAYICI */
@@ -78,7 +88,7 @@
 
         /* --- ÖZEL MOD (FİNAL İÇİN) --- */
         .special-mode .photo-area {
-            display: none; /* Fotoğrafı gizle */
+            display: none; 
         }
         
         .special-mode .lyrics-area {
@@ -86,20 +96,20 @@
         }
 
         .special-mode h2 {
-            font-size: 3.5rem; color: #ff4d4d; /* Başlık büyür ve renklenir */
+            font-size: 3.5rem; color: #ff4d4d;
             text-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
         }
 
         .special-mode .poem-text {
-            font-size: 1.8rem; /* Yazılar büyür */
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            font-size: 1.8rem; 
+            text-shadow: 0 2px 20px rgba(0,0,0,1); /* Arkası hareketli olduğu için güçlü gölge */
         }
 
-        /* KALP ANİMASYONU (Sadece Finalde Çıkar) */
+        /* KALP ANİMASYONU */
         .heart-beat {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 30vw; opacity: 0; pointer-events: none; z-index: 0;
-            color: rgba(255, 0, 0, 0.1);
+            font-size: 30vw; opacity: 0; pointer-events: none; z-index: 2;
+            color: rgba(255, 0, 0, 0.15);
             animation: beat 2s infinite;
             display: none;
         }
@@ -131,12 +141,10 @@
             flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* NOKTALI GÖSTERGE */
         #stanza-indicator {
             margin-top: 20px; font-size: 14px; color: #f8b500; letter-spacing: 3px; opacity: 0.7;
         }
 
-        /* MOBİL */
         @media (max-width: 768px) {
             .main-container, .reverse-layout { flex-direction: column !important; }
             .photo-area { flex: 0.8; padding-bottom: 0; }
@@ -144,9 +152,7 @@
             .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 20px; }
             h2 { font-size: 1.8rem; margin-bottom: 15px; }
             .poem-text { font-size: 1.1rem; }
-            
-            /* Mobilde Özel Mod */
-            .special-mode .poem-text { font-size: 1.3rem; }
+            .special-mode .poem-text { font-size: 1.4rem; }
             .special-mode h2 { font-size: 2.2rem; }
         }
     </style>
@@ -169,6 +175,9 @@
     </audio>
 
     <div id="bg-blur"></div>
+    
+    <div id="chat-flash-bg"></div>
+    
     <div class="heart-beat" id="big-heart">❤</div>
 
     <div class="main-container" id="main-app" style="opacity: 0; transition: opacity 1s;">
@@ -194,6 +203,13 @@
     <script>
         const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
         
+        // --- BURASI ÇOK ÖNEMLİ: EKRAN GÖRÜNTÜLERİNİ BURAYA YAZACAKSIN ---
+        // Şimdilik test için normal fotoları koydum. Sen ss1.jpg, ss2.jpg diye yükleyip burayı değiştir.
+        const chatImages = [
+            "ani1.jpeg", "ani2.jpeg", "ani3.jpeg", "ani4.jpeg", "ani5.jpeg", "ani6.jpeg"
+            // Buraya istediğin kadar ekleyebilirsin: "ss1.jpg", "ss2.jpg" ...
+        ];
+
         const content = [
             { 
                 title: "Güzelliğine Şiirler Yetişmez", 
@@ -230,10 +246,10 @@
                 img: "ani1.jpeg", 
                 text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" 
             },
-            /* --- FİNAL BÖLÜMÜ: ÖZEL MOD AKTİF --- */
+            /* --- FİNAL BÖLÜMÜ --- */
             {
                 title: "Peki Neden Sen? 💛",
-                isSpecial: true, /* BU KISIM ÖNEMLİ, TASARIMI DEĞİŞTİRİR */
+                isSpecial: true,
                 img: "ani1.jpeg", 
                 text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve sen olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen."
             }
@@ -241,8 +257,11 @@
 
         let slideIndex = 0;
         let stanzaInterval;
+        let flashInterval; // Hızlı resim değişimi için zamanlayıcı
+
         const bgMusic = document.getElementById('bg-music');
         const bgBlur = document.getElementById('bg-blur');
+        const flashBg = document.getElementById('chat-flash-bg');
         const container = document.getElementById('main-app');
         const photo = document.getElementById('current-photo');
         const title = document.getElementById('poem-title');
@@ -266,6 +285,7 @@
 
         function loadSlide(index) {
             clearInterval(stanzaInterval);
+            stopFlash(); // Önceki flash varsa durdur
             stanzaText.classList.remove('visible'); 
             
             setTimeout(() => {
@@ -276,16 +296,23 @@
                     container.classList.add('special-mode');
                     bigHeart.style.display = 'block';
                     bigHeart.style.opacity = '0.4';
+                    
+                    // Flashback'i Başlat (Hızlı Mesajlar)
+                    startFlash();
+                    
                 } else {
                     container.classList.remove('special-mode');
                     bigHeart.style.display = 'none';
-                    photo.src = currentItem.img; // Sadece normal modda fotoğraf güncelle
+                    photo.src = currentItem.img;
+                    
+                    // Normal arka plan
+                    bgBlur.style.opacity = '1';
+                    bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
+                    flashBg.style.opacity = '0';
                 }
 
-                bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
                 title.innerText = currentItem.title;
 
-                // Zig-Zag (Sadece normal modda çalışır)
                 if (!currentItem.isSpecial) {
                     if (index % 2 !== 0) { container.classList.add('reverse-layout'); } 
                     else { container.classList.remove('reverse-layout'); }
@@ -296,7 +323,6 @@
 
                 showStanza(stanzas, stanzaIndex);
 
-                // Süre: Final bölümünde daha uzun (8sn), şiirlerde 5.5sn
                 let duration = currentItem.isSpecial ? 8000 : 5500;
 
                 stanzaInterval = setInterval(() => {
@@ -307,9 +333,27 @@
             }, 300);
         }
 
+        function startFlash() {
+            flashBg.style.opacity = '1';
+            bgBlur.style.opacity = '0'; // Normali gizle
+            
+            let flashIndex = 0;
+            // İlk resmi hemen göster
+            flashBg.style.backgroundImage = `url('${chatImages[0]}')`;
+
+            flashInterval = setInterval(() => {
+                flashIndex = (flashIndex + 1) % chatImages.length;
+                flashBg.style.backgroundImage = `url('${chatImages[flashIndex]}')`;
+            }, 150); // 0.15 saniye (150ms) hızla değişir
+        }
+
+        function stopFlash() {
+            clearInterval(flashInterval);
+            flashBg.style.opacity = '0';
+        }
+
         function showStanza(stanzas, index) {
             stanzaText.classList.remove('visible'); 
-            
             setTimeout(() => {
                 stanzaText.innerText = stanzas[index];
                 stanzaText.classList.add('visible'); 
