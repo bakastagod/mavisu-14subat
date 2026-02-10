@@ -10,14 +10,15 @@
             margin: 0; padding: 0; height: 100%; overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             background: #121212;
+            color: white;
         }
 
-        /* DİNAMİK ARKA PLAN */
+        /* ARKA PLAN */
         #bg-blur {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
-            filter: blur(30px) brightness(0.5);
-            transition: background-image 0.8s ease-in-out;
+            filter: blur(35px) brightness(0.4); /* Yazılar daha net okunsun diye biraz daha kararttım */
+            transition: background-image 1s ease-in-out;
             z-index: 1;
         }
 
@@ -26,13 +27,10 @@
             position: relative; z-index: 10;
             display: flex; height: 100%; width: 100%;
             justify-content: center; align-items: center;
-            transition: all 0.5s ease;
         }
 
-        /* ZIG-ZAG İÇİN TERS ÇEVİRME SINIFI */
-        .reverse-layout {
-            flex-direction: row-reverse;
-        }
+        /* TERS DÜZEN (ZIG-ZAG) */
+        .reverse-layout { flex-direction: row-reverse; }
 
         /* FOTOĞRAF ALANI */
         .photo-area {
@@ -41,71 +39,77 @@
         }
         
         .photo-card {
-            width: auto; max-width: 90%; max-height: 75vh;
-            border-radius: 15px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
-            object-fit: contain; /* FOTOĞRAFI ASLA KESMEZ */
+            width: auto; max-width: 90%; max-height: 70vh;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            object-fit: contain;
             transition: transform 0.5s ease;
         }
 
         /* ŞİİR ALANI */
         .lyrics-area {
-            flex: 1; height: 100vh; overflow-y: auto; /* Uzun şiirler için kaydırma */
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 50px; box-sizing: border-box;
-            color: white;
-            /* Yazıların altı ve üstü hafif silik görünsün diye maske */
-            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 40px; text-align: center;
+            height: 100vh;
         }
 
         h2 {
-            font-size: 2.2rem; margin-bottom: 25px; color: #f8b500;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            animation: slideIn 0.8s ease;
+            font-size: 2.5rem; margin-bottom: 40px; color: #f8b500;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: opacity 0.5s;
+        }
+
+        /* KITA GÖRÜNÜMÜ */
+        .stanza-box {
+            min-height: 150px; /* Sabit yükseklik ki zıplama yapmasın */
+            display: flex; align-items: center; justify-content: center;
         }
 
         .poem-text {
-            font-size: 1.25rem; line-height: 1.6; font-weight: 500;
+            font-size: 1.6rem; line-height: 1.6; font-weight: 600;
             color: rgba(255, 255, 255, 0.95);
-            white-space: pre-wrap; /* Şiir formatını korur */
-            animation: fadeIn 1.2s ease;
+            white-space: pre-line;
+            opacity: 0; /* JS ile açılacak */
+            transform: translateY(20px);
+            transition: all 1s ease-in-out; /* Yumuşak geçiş efekti */
         }
 
-        /* KONTROL BUTONLARI */
+        .poem-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* BUTONLAR */
         .controls {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 20px; z-index: 20;
-            background: rgba(0,0,0,0.4); padding: 10px 30px; border-radius: 50px;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 30px; z-index: 20;
+            background: rgba(255,255,255,0.1); padding: 10px 40px; border-radius: 50px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
 
         .btn {
             background: none; border: none; color: white;
-            font-size: 24px; cursor: pointer; transition: 0.2s;
+            font-size: 28px; cursor: pointer; transition: 0.3s; opacity: 0.8;
         }
-        .btn:hover { color: #f8b500; transform: scale(1.2); }
+        .btn:hover { color: #f8b500; transform: scale(1.2); opacity: 1; }
 
         /* BAŞLANGIÇ EKRANI */
         #start-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #1e1e1e 0%, #000 100%);
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
             z-index: 100; display: flex;
             flex-direction: column; justify-content: center; align-items: center;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-
-        /* MOBİL UYUMLULUK */
+        /* MOBİL */
         @media (max-width: 768px) {
-            .main-container, .reverse-layout { flex-direction: column !important; } /* Mobilde hep alt alta */
-            .photo-area { flex: 0.8; padding: 10px; height: auto; }
+            .main-container, .reverse-layout { flex-direction: column !important; }
+            .photo-area { flex: 0.8; height: auto; padding-bottom: 0; }
             .photo-card { max-height: 40vh; }
-            .lyrics-area { flex: 1.2; padding: 20px; text-align: center; mask-image: none; -webkit-mask-image: none; }
-            h2 { font-size: 1.6rem; margin-bottom: 15px; }
-            .poem-text { font-size: 1rem; }
-            .controls { bottom: 10px; padding: 8px 25px; }
+            .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 20px; }
+            h2 { font-size: 1.8rem; margin-bottom: 20px; }
+            .poem-text { font-size: 1.2rem; }
+            .stanza-box { min-height: 120px; }
         }
     </style>
 </head>
@@ -113,11 +117,11 @@
 
     <div id="start-overlay">
         <h1 style="color: #f8b500; font-size: 2.5rem; margin-bottom: 10px;">Mavisu 💛</h1>
-        <p style="color: #aaa; margin-bottom: 30px;">Sesi Aç ve Başla...</p>
+        <p style="color: #aaa; margin-bottom: 30px;">Sesini Aç ve Tıkla...</p>
         <button onclick="startExperience()" style="
             background: #1db954; color: black; border: none; 
             padding: 15px 50px; font-size: 20px; border-radius: 50px; 
-            font-weight: bold; cursor: pointer; box-shadow: 0 10px 30px rgba(29, 185, 84, 0.4); transition: 0.3s;">
+            font-weight: bold; cursor: pointer; box-shadow: 0 10px 30px rgba(29, 185, 84, 0.4);">
             ▶ BAŞLAT
         </button>
     </div>
@@ -128,14 +132,18 @@
 
     <div id="bg-blur"></div>
 
-    <div class="main-container" id="main-app" style="opacity: 0;">
+    <div class="main-container" id="main-app" style="opacity: 0; transition: opacity 1s;">
+        
         <div class="photo-area">
             <img id="current-photo" class="photo-card" src="ani1.jpeg">
         </div>
 
         <div class="lyrics-area">
             <h2 id="poem-title"></h2>
-            <div class="poem-text" id="poem-content"></div>
+            <div class="stanza-box">
+                <p class="poem-text" id="poem-stanza"></p>
+            </div>
+            <div style="margin-top: 20px; font-size: 12px; opacity: 0.5; letter-spacing: 2px;" id="stanza-indicator">...</div>
         </div>
 
         <div class="controls">
@@ -146,25 +154,24 @@
     </div>
 
     <script>
-        // Müzik Linki (JavaScript ile yükleniyor)
         const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
         
-        // TÜM ŞİİRLER (EKSİKSİZ, TAM METİN)
+        // ŞİİR İÇERİKLERİ
         const content = [
             { 
                 title: "Güzelliğine Şiirler Yetişmez", 
                 img: "ani1.jpeg", 
-                text: "Kökü sende olan saçların\nBeni sürekli sana bağlıyor davranışların\nDenizleri, gökyüzünü içinde barındıran gözlerin\nSöylediğin bencilce sözlerin\nTam 12den vuruyor\nSinsi sinsi gülüşlerin." 
+                text: "Kökü sende olan saçların\nBeni sürekli sana bağlıyor davranışların\n\nDenizleri, gökyüzünü içinde barındıran gözlerin\nSöylediğin bencilce sözlerin\n\nTam 12den vuruyor\nSinsi sinsi gülüşlerin." 
             },
             { 
                 title: "MAVİSU AKIN ŞİİRİ", 
                 img: "ani2.jpeg", 
-                text: "Aşk bir şiir olsaydı\nBaşlığı sen olurdun.\nGüzellik bir benzetme olsaydı\nBenzetilen sen olurdun.\n\nGüzelliğin insana şapka çıkartır\nSalaklığın Ahmetle yarışır\nGözlerin cenneti anımsatır\nSarı saçların güneşi geride bırakır." 
+                text: "Aşk bir şiir olsaydı\nBaşlığı sen olurdun.\n\nGüzellik bir benzetme olsaydı\nBenzetilen sen olurdun.\n\nGüzelliğin insana şapka çıkartır\nSalaklığın Ahmetle yarışır\n\nGözlerin cenneti anımsatır\nSarı saçların güneşi geride bırakır." 
             },
             { 
                 title: "Yeni Yıl Ama Seninle", 
                 img: "ani3.jpeg", 
-                text: "Günlerden 1 Ocak.\nSaat 24.00'da duracak.\nBütün bir yıl, geride toz olup kalacak.\n\nAğladığında gözünden akan göz yaşı bir yağmuru andırır, bulutlar kıskanır.\nGülümsediğinde dünyamı aydınlatan bir nur saçarsın, güneş kıskanır.\n\nGüneşim olursun, Ay'ın olurum.\nSen nurunu saçarsın, ben o nur ile parıldarım.\n\nSen yanımdayken zaman taşkın bir su gibi akıp geçiyor, önünde en ufak engel tanımıyor.\nSen olmayınca zaman hiç mi hiç geçmiyor, olduğu yerde kalıyor.\nYeni yıl geliyor,\nbütün bir kainatta zaman yalnızca senin için akıp gidiyor.\n\nŞiirlerime layık görüyorum seni\nSaçlarındaki her bir tel kendine çekiyor beni\nBiraz özúrlū olsanda\nBöyle seviyorum seni" 
+                text: "Günlerden 1 Ocak.\nSaat 24.00'da duracak.\nBütün bir yıl, geride toz olup kalacak.\n\nAğladığında gözünden akan göz yaşı bir yağmuru andırır, bulutlar kıskanır.\nGülümsediğinde dünyamı aydınlatan bir nur saçarsın, güneş kıskanır.\n\nGüneşim olursun, Ay'ın olurum.\nSen nurunu saçarsın, ben o nur ile parıldarım.\n\nSen yanımdayken zaman taşkın bir su gibi akıp geçiyor, önünde en ufak engel tanımıyor.\nSen olmayınca zaman hiç mi hiç geçmiyor, olduğu yerde kalıyor.\n\nYeni yıl geliyor,\nbütün bir kainatta zaman yalnızca senin için akıp gidiyor.\n\nŞiirlerime layık görüyorum seni\nSaçlarındaki her bir tel kendine çekiyor beni\n\nBiraz özúrlū olsanda\nBöyle seviyorum seni" 
             },
             { 
                 title: "Yedi 💛", 
@@ -174,94 +181,104 @@
             { 
                 title: "Dünyamın En Güzeli", 
                 img: "ani5.jpeg", 
-                text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\nNice günler var dertli, ızdıraplı, bahtsız\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\nNedir bizdeki bu dert, keder?\nFenerbahçeliydi ya senin peder.🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\nDünyanın 7 güzelliğini ardında bırakan\nSensin dünyamın güzeli." 
+                text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\n\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\n\nNice günler var dertli, ızdıraplı, bahtsız\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\n\nNedir bizdeki bu dert, keder?\nFenerbahçeliydi ya senin peder.🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\n\nDünyanın 7 güzelliğini ardında bırakan\nSensin dünyamın güzeli." 
             },
             { 
                 title: "Aşkın 6 Harflisi", 
                 img: "ani6.jpeg", 
-                text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\nGüzelliğin öyle güzel idir\nÜzerimden çıkmayan bir kir\n\nKirin güzeli olur mu deme, olurmuş.\nÜzerimden ayrılmayan bu şey bir kusur muymuş?\nSanmam bunun bir kusur olduğunu\nSenden kaynaklı her şey pek âlâ pek hoş olurmuş.\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." 
+                text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\n\nGüzelliğin öyle güzel idir\nÜzerimden çıkmayan bir kir\n\nKirin güzeli olur mu deme, olurmuş.\nÜzerimden ayrılmayan bu şey bir kusur muymuş?\n\nSanmam bunun bir kusur olduğunu\nSenden kaynaklı her şey pek âlâ pek hoş olurmuş.\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\n\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." 
             },
             { 
                 title: "EHEHEHE🤭", 
                 img: "ani1.jpeg", 
-                text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" 
+                text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" 
             }
         ];
 
-        let index = 0;
+        let slideIndex = 0;
+        let stanzaInterval;
         const bgMusic = document.getElementById('bg-music');
         const bgBlur = document.getElementById('bg-blur');
         const container = document.getElementById('main-app');
         const photo = document.getElementById('current-photo');
         const title = document.getElementById('poem-title');
-        const text = document.getElementById('poem-content');
+        const stanzaText = document.getElementById('poem-stanza');
         const playBtn = document.getElementById('playBtn');
 
         function startExperience() {
             bgMusic.src = musicSource;
-            bgMusic.play().then(() => {
-                playBtn.innerText = "⏸";
-            }).catch(e => {
-                console.log("Tarayıcı engeli:", e);
-                playBtn.innerText = "▶";
-            });
-
+            bgMusic.play().then(() => { playBtn.innerText = "⏸"; }).catch(e => { playBtn.innerText = "▶"; });
             document.getElementById('start-overlay').style.display = 'none';
             container.style.opacity = '1';
             loadSlide(0);
         }
 
         function togglePlay() {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                playBtn.innerText = "⏸";
-            } else {
-                bgMusic.pause();
-                playBtn.innerText = "▶";
-            }
+            if (bgMusic.paused) { bgMusic.play(); playBtn.innerText = "⏸"; } 
+            else { bgMusic.pause(); playBtn.innerText = "▶"; }
         }
 
-        function loadSlide(i) {
-            // Şeffaflık ver (Geçiş efekti için)
-            title.style.opacity = 0;
-            text.style.opacity = 0;
-            photo.style.transform = "scale(0.95)";
-
+        function loadSlide(index) {
+            // Önceki zamanlayıcıyı temizle
+            clearInterval(stanzaInterval);
+            stanzaText.classList.remove('visible'); // Yazıyı gizle
+            
             setTimeout(() => {
-                // İçerikleri güncelle
-                photo.src = content[i].img;
-                bgBlur.style.backgroundImage = `url('${content[i].img}')`;
-                title.innerText = content[i].title;
-                text.innerText = content[i].text;
+                // İçerikleri Yükle
+                let currentItem = content[index];
+                photo.src = currentItem.img;
+                bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
+                title.innerText = currentItem.title;
 
-                // ZIG-ZAG DÜZEN (Bir sağa bir sola)
-                // Eğer sıra sayısı (i) tekse (1, 3, 5) ters çevir.
-                if (i % 2 !== 0) {
-                    container.classList.add('reverse-layout');
-                } else {
-                    container.classList.remove('reverse-layout');
-                }
+                // Zig-Zag Düzen Kontrolü
+                if (index % 2 !== 0) { container.classList.add('reverse-layout'); } 
+                else { container.classList.remove('reverse-layout'); }
 
-                // Geri getir
-                title.style.opacity = 1;
-                text.style.opacity = 1;
-                photo.style.transform = "scale(1)";
+                // Şiiri Kıtalarına Böl (\n\n ile ayrılan boşluklardan)
+                let stanzas = currentItem.text.split('\n\n');
+                let stanzaIndex = 0;
+
+                // İlk kıtayı göster
+                showStanza(stanzas, stanzaIndex);
+
+                // Otomatik Döngü Başlat (Her 5.5 saniyede bir değişir)
+                stanzaInterval = setInterval(() => {
+                    stanzaIndex = (stanzaIndex + 1) % stanzas.length;
+                    showStanza(stanzas, stanzaIndex);
+                }, 5500);
+
             }, 300);
         }
 
+        function showStanza(stanzas, index) {
+            stanzaText.classList.remove('visible'); // Önce sön
+            
+            setTimeout(() => {
+                stanzaText.innerText = stanzas[index]; // Metni değiştir
+                stanzaText.classList.add('visible'); // Geri yan
+                
+                // Noktalı gösterge (Kaçıncı kıtada olduğumuzu gösterir)
+                let dots = "";
+                for(let i=0; i<stanzas.length; i++) {
+                    dots += (i === index) ? "● " : "○ ";
+                }
+                document.getElementById('stanza-indicator').innerText = dots;
+            }, 600); // Sönme süresi kadar bekle
+        }
+
         function nextSlide() {
-            if (index < content.length - 1) {
-                index++;
-                loadSlide(index);
+            if (slideIndex < content.length - 1) {
+                slideIndex++;
+                loadSlide(slideIndex);
             } else {
                 alert("Seni Seviyorum Mavisu! 💛");
             }
         }
 
         function prevSlide() {
-            if (index > 0) {
-                index--;
-                loadSlide(index);
+            if (slideIndex > 0) {
+                slideIndex--;
+                loadSlide(slideIndex);
             }
         }
     </script>
