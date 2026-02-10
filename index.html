@@ -3,105 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mavisu'ya Sürpriz 💛</title>
+    <title>Mavisu'ya Özel 💛</title>
     <style>
         body { 
-            margin: 0; 
-            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%); 
-            color: #444; 
-            font-family: 'Segoe UI', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            position: relative;
+            margin: 0; background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%); 
+            color: #444; font-family: 'Segoe UI', Tahoma, sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; overflow: hidden; position: relative;
         }
 
-        /* Uçuşan SARI Kalpler Animasyonu */
-        .heart {
-            position: absolute;
-            bottom: -100px;
-            font-size: 20px;
-            animation: moveHearts 5s linear infinite;
-        }
-
+        .heart { position: absolute; bottom: -100px; font-size: 20px; animation: moveHearts 5s linear infinite; z-index: 1; }
         @keyframes moveHearts {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
-        #start-screen { text-align: center; z-index: 10; }
+        #start-screen { text-align: center; z-index: 20; transition: opacity 0.8s; }
         
-        .poem-card { 
-            background: rgba(255, 255, 255, 0.9); 
-            padding: 25px; 
-            border-radius: 30px; 
-            backdrop-filter: blur(10px); 
-            cursor: pointer; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border: 2px solid #f8b500;
-            text-align: center;
-            max-width: 400px;
-            z-index: 10;
-            animation: bounceIn 1s;
+        .container { 
+            position: relative; width: 95%; max-width: 450px; height: 85vh;
+            display: none; justify-content: center; align-items: center;
+            animation: fadeIn 1s ease; z-index: 10;
         }
 
-        img { width: 100%; border-radius: 20px; margin-bottom: 15px; border: 3px solid #f8b500; }
+        img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            border-radius: 25px; border: 4px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: opacity 0.6s ease;
+        }
         
+        .poem-overlay { 
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            width: 90%; background: rgba(255, 255, 255, 0.92); 
+            padding: 15px; border-radius: 20px; backdrop-filter: blur(10px);
+            text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            max-height: 50%; overflow-y: auto;
+        }
+
         .poem-text { 
-            font-size: 1.1rem; 
-            line-height: 1.5; 
-            white-space: pre-line; 
-            font-weight: bold;
-            color: #555;
+            font-size: 0.9rem; line-height: 1.4; white-space: pre-line; 
+            font-weight: bold; color: #b02a37; margin: 0;
         }
 
         button { 
-            padding: 18px 40px; 
-            font-size: 20px; 
-            cursor: pointer; 
-            background: #f8b500;
-            color: white; 
-            border: none; 
-            border-radius: 50px; 
-            box-shadow: 0 10px 20px rgba(248, 181, 0, 0.3);
-            transition: 0.4s;
+            padding: 18px 45px; font-size: 22px; cursor: pointer; 
+            background: #fff; color: #f8b500; border: none; 
+            border-radius: 50px; font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
         }
-        button:hover { transform: scale(1.1); background: #ffa500; }
+        button:hover { transform: scale(1.1); }
 
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="start-screen">
-        <h1 style="color: #444;">14 Şubat Sürprizine Hazır mısın? 💛</h1>
-        <button onclick="startApp()">Şarkımızı Aç ve İzle 🎵</button>
+        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.2);">Hazırsan Başlayalım... 💛</h1>
+        <button onclick="startApp()">Şarkıyı Aç 🎵</button>
     </div>
 
     <audio id="bg-music" loop>
-        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Alternative_Grooves/Ketsa_-_04_-_Look_at_Me_Now.mp3" type="audio/mpeg">
+        <source src="https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3" type="audio/mpeg">
     </audio>
 
-    <div id="main-content" style="display:none;">
-        <div class="poem-card" onclick="nextStep()">
-            <img id="display-img" src="ani1.jpeg">
-            <div class="poem-text" id="display-poem"></div>
-            <p style="font-size: 0.8rem; color: #f8b500; margin-top: 10px;">(Devam etmek için ekrana dokun...)</p>
+    <div id="container" class="container" onclick="nextStep()">
+        <img id="display-img" src="ani1.jpeg">
+        <div class="poem-overlay">
+            <p class="poem-text" id="display-poem"></p>
+            <span style="font-size: 0.7rem; color: #f8b500; display: block; margin-top: 5px;">(Devam etmek için dokun)</span>
         </div>
     </div>
 
     <script>
-        // SARI Kalp oluşturma
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = '💛'; // İŞTE SARI KALP
+            heart.innerHTML = '💛';
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.animationDuration = Math.random() * 2 + 3 + "s";
             document.body.appendChild(heart);
@@ -110,31 +89,42 @@
         setInterval(createHeart, 300);
 
         const content = [
-            { img: "ani1.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar...\nSeni görünceye kadar. 💛" },
-            { img: "ani2.jpeg", text: "Güzelliğine şiir değil tarih yazılır,\nUnutkanlığın anlatılmaz yaşanılır.\n(Yanına 30m yaklaşma) Isırır! ⚠️" },
-            { img: "ani3.jpeg", text: "16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\nSensin dünyamın güzeli. 🦁" },
-            { img: "ani4.jpeg", text: "Güzelliğin tanrıyı kıskandırır\nGülüşün meleği anımsatır..." },
-            { img: "ani5.jpeg", text: "Haftamın 7 günüsün\nSenden kaçışım yok..." },
-            { img: "ani6.jpeg", text: "Sen yanımdayken zaman su gibi akıyor,\nSen olmayınca zaman hiç geçmiyor. 💛" }
+            { img: "ani1.jpeg", text: "Güzelliğine Şiirler Yetişmez\n\nKökü sende olan saçların\nBeni sürekli sana bağlıyor davranışların\nDenizleri, gökyüzünü içinde barındıran gözlerin\nSöylediğin bencilce sözlerin\nTam 12den vuruyor\nSinsi sinsi gülüşlerin." },
+            { img: "ani2.jpeg", text: "MAVİSU AKIN ŞİİRİ\n\nAşk bir şiir olsaydı\nBaşlığı sen olurdun.\nGüzellik bir benzetme olsaydı\nBenzetilen sen olurdun.\n\nGüzelliğin insana şapka çıkartır\nSalaklığın Ahmetle yarışır\nGözlerin cenneti anımsatır\nSarı saçların güneşi geride bırakır." },
+            { img: "ani3.jpeg", text: "Yeni Yıl Ama Seninle\n\nGünlerden 1 Ocak.\nSaat 24.00'da duracak.\nBütün bir yıl, geride toz olup kalacak.\n\nAğladığında gözünden akan göz yaşı bir yağmuru andırır, bulutlar kıskanır.\nGülümsediğinde dünyamı aydınlatan bir nur saçarsın, güneş kıskanır.\n\nGüneşim olursun, Ay'ın olurum.\nSen nurunu saçarsın, ben o nur ile parıldarım.\n\nSen yanımdayken zaman taşkın bir su gibi akıp geçiyor...\nSen olmayınca zaman hiç mi hiç geçmiyor.\n\nŞiirlerime layık görüyorum seni\nSaçlarındaki her bir tel kendine çekiyor beni\nBiraz özúrlū olsanda\nBöyle seviyorum seni" },
+            { img: "ani4.jpeg", text: "Yedi 💛\n\nHaftamın 7 günüsün\nSenden kaçışım yok\nSon 7 dakikamsın\nSeni düşünmememe imkan yok\n\nGüzelliğin tanrıyı kıskandırır\nGülüşün meleği anımsatır\nNur saçan siman bir afet gibidir\nŞunu bil ki kalbim sana bağlıdır.\n\nSürekli ev boş diyorsun\nGüzelsin, bunu sende biliyorsun\nG̶ü̶z̶e̶l̶ ̶d̶e̶ğ̶i̶l̶i̶m̶ deyince\nŞahsına büyük hakaretler ediyorsun.\n\nKalbim kalbine esaret düşmüş\nKişiliğin zihnimde üşüşmüş\n\nİlik gibi kızsın\nBirazcık Y̶a̶l̶a̶n̶c̶ı̶s̶ı̶n̶\nZihnimi ele geçiren bir istilacısın" },
+            { img: "ani5.jpeg", text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\n\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\n\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\nFenerbahçeliydi ya senin peder. 🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\nSensin dünyamın güzeli." },
+            { img: "ani6.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." },
+            { img: "ani1.jpeg", text: "EHEHEHE🤭\n\nHayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\nOlgun dudaklarınla,👄\nDurgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" }
         ];
 
-        let currentStep = 0;
-        const bgMusic = document.getElementById('bg-music');
+        let i = 0;
+        const music = document.getElementById('bg-music');
 
         function startApp() {
-            document.getElementById('start-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            bgMusic.play();
-            nextStep();
+            document.getElementById('start-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('container').style.display = 'flex';
+                music.play();
+                nextStep();
+            }, 800);
         }
 
         function nextStep() {
-            if (currentStep < content.length) {
-                document.getElementById('display-img').src = content[currentStep].img;
-                document.getElementById('display-poem').innerText = content[currentStep].text;
-                currentStep++;
+            if (i < content.length) {
+                const imgElement = document.getElementById('display-img');
+                const poemElement = document.getElementById('display-poem');
+                
+                imgElement.style.opacity = '0';
+                setTimeout(() => {
+                    imgElement.src = content[i].img;
+                    poemElement.innerText = content[i].text;
+                    imgElement.style.opacity = '1';
+                    i++;
+                }, 400);
             } else {
-                document.getElementById('display-poem').innerText = "14 Şubat Sevgililer Günümüz Kutlu Olsun Mavisu... 💛";
+                document.getElementById('display-poem').innerText = "14 Şubat Sevgililer Günümüz Kutlu Olsun Mavisu! 💛";
             }
         }
     </script>
