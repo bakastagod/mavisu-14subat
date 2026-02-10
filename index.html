@@ -3,72 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>En Sevdiğime Özel</title>
+    <title>Mavisu'ya Sürpriz 💛</title>
     <style>
-        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        #overlay { text-align: center; transition: opacity 1s; z-index: 10; }
-        #main-content { display: none; text-align: center; width: 90%; max-width: 600px; z-index: 5; }
-        .poem-card { background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; animation: fadeIn 1s; box-shadow: 0 8px 32px 0 rgba(255, 77, 77, 0.3); border: 1px solid rgba(255, 255, 255, 0.18); }
-        img { width: 100%; max-height: 350px; object-fit: contain; border-radius: 10px; margin-bottom: 15px; }
-        button { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #ff4d4d; color: white; border: none; border-radius: 25px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
-        button:hover { background: #ff1a1a; transform: scale(1.1); }
-        .poem-text { font-size: 1.1rem; line-height: 1.6; white-space: pre-line; margin-bottom: 10px; }
-        .counter { margin-top: 20px; font-size: 1.3rem; color: #ffcccc; font-weight: bold; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        body { 
+            margin: 0; 
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%); 
+            color: #444; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+            position: relative;
+        }
+
+        /* Uçuşan SARI Kalpler Animasyonu */
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            font-size: 20px;
+            animation: moveHearts 5s linear infinite;
+        }
+
+        @keyframes moveHearts {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        #start-screen { text-align: center; z-index: 10; }
+        
+        .poem-card { 
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 25px; 
+            border-radius: 30px; 
+            backdrop-filter: blur(10px); 
+            cursor: pointer; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f8b500;
+            text-align: center;
+            max-width: 400px;
+            z-index: 10;
+            animation: bounceIn 1s;
+        }
+
+        img { width: 100%; border-radius: 20px; margin-bottom: 15px; border: 3px solid #f8b500; }
+        
+        .poem-text { 
+            font-size: 1.1rem; 
+            line-height: 1.5; 
+            white-space: pre-line; 
+            font-weight: bold;
+            color: #555;
+        }
+
+        button { 
+            padding: 18px 40px; 
+            font-size: 20px; 
+            cursor: pointer; 
+            background: #f8b500;
+            color: white; 
+            border: none; 
+            border-radius: 50px; 
+            box-shadow: 0 10px 20px rgba(248, 181, 0, 0.3);
+            transition: 0.4s;
+        }
+        button:hover { transform: scale(1.1); background: #ffa500; }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
-    <div id="overlay">
-        <h1 id="intro-text">En sevdiğime özel...</h1>
-        <button id="start-btn" style="display:none;">Şarkıyı Aç ve Başla</button>
+    <div id="start-screen">
+        <h1 style="color: #444;">14 Şubat Sürprizine Hazır mısın? 💛</h1>
+        <button onclick="startApp()">Şarkımızı Aç ve İzle 🎵</button>
     </div>
 
     <audio id="bg-music" loop>
-        <source src="https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3" type="audio/mpeg">
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Alternative_Grooves/Ketsa_-_04_-_Look_at_Me_Now.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="main-content">
+    <div id="main-content" style="display:none;">
         <div class="poem-card" onclick="nextStep()">
-            <img id="display-img" src="ani1.jpeg" alt="Bizim Anımız">
+            <img id="display-img" src="ani1.jpeg">
             <div class="poem-text" id="display-poem"></div>
-            <p style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">(Devam etmek için ekrana tıkla...)</p>
-        </div>
-        <div id="final-step" style="display:none;">
-            <div class="counter" id="timer"></div>
-            <p style="margin-top:20px; font-style: italic; color: #ff8080;">"Sen gönlümden erimeyen bir kar oldun."</p>
+            <p style="font-size: 0.8rem; color: #f8b500; margin-top: 10px;">(Devam etmek için ekrana dokun...)</p>
         </div>
     </div>
 
     <script>
+        // SARI Kalp oluşturma
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💛'; // İŞTE SARI KALP
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
         const content = [
-            { img: "ani1.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar...\nSeni görünceye kadar." },
-            { img: "ani2.jpeg", text: "Güzelliğine şiir değil tarih yazılır,\nUnutkanlığın anlatılmaz yaşanılır.\n(Yanına 30 m yaklaşma) Isırır. ⚠️" },
+            { img: "ani1.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar...\nSeni görünceye kadar. 💛" },
+            { img: "ani2.jpeg", text: "Güzelliğine şiir değil tarih yazılır,\nUnutkanlığın anlatılmaz yaşanılır.\n(Yanına 30m yaklaşma) Isırır! ⚠️" },
             { img: "ani3.jpeg", text: "16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\nSensin dünyamın güzeli. 🦁" },
             { img: "ani4.jpeg", text: "Güzelliğin tanrıyı kıskandırır\nGülüşün meleği anımsatır..." },
             { img: "ani5.jpeg", text: "Haftamın 7 günüsün\nSenden kaçışım yok..." },
-            { img: "ani6.jpeg", text: "Güneşim olursun, Ay'ın olurum.\nSen nurunu saçarsın, ben o nur ile parıldarım." }
+            { img: "ani6.jpeg", text: "Sen yanımdayken zaman su gibi akıyor,\nSen olmayınca zaman hiç geçmiyor. 💛" }
         ];
 
         let currentStep = 0;
-        const introText = document.getElementById('intro-text');
-        const startBtn = document.getElementById('start-btn');
         const bgMusic = document.getElementById('bg-music');
 
-        setTimeout(() => {
-            introText.style.opacity = '0';
-            setTimeout(() => {
-                introText.style.display = 'none';
-                startBtn.style.display = 'block';
-            }, 1000);
-        }, 2500);
-
-        startBtn.onclick = () => {
-            document.getElementById('overlay').style.display = 'none';
+        function startApp() {
+            document.getElementById('start-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            bgMusic.play().catch(e => console.log("Müzik çalınamadı: ", e));
+            bgMusic.play();
             nextStep();
-        };
+        }
 
         function nextStep() {
             if (currentStep < content.length) {
@@ -76,20 +134,8 @@
                 document.getElementById('display-poem').innerText = content[currentStep].text;
                 currentStep++;
             } else {
-                document.querySelector('.poem-card').style.display = 'none';
-                document.getElementById('final-step').style.display = 'block';
-                startTimer();
+                document.getElementById('display-poem').innerText = "14 Şubat Sevgililer Günümüz Kutlu Olsun Mavisu... 💛";
             }
-        }
-
-        function startTimer() {
-            const startDate = new Date("2025-01-01"); // Tanışma tarihini buraya yaz
-            setInterval(() => {
-                const now = new Date();
-                const diff = now - startDate;
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('timer').innerText = `Seni tanıdığımdan beri tam ${days} gün geçti...`;
-            }, 1000);
         }
     </script>
 </body>
