@@ -17,7 +17,7 @@
         #bg-blur {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
-            filter: blur(35px) brightness(0.4); /* Yazılar daha net okunsun diye biraz daha kararttım */
+            filter: blur(35px) brightness(0.4);
             transition: background-image 1s ease-in-out;
             z-index: 1;
         }
@@ -27,9 +27,9 @@
             position: relative; z-index: 10;
             display: flex; height: 100%; width: 100%;
             justify-content: center; align-items: center;
+            transition: all 0.5s ease;
         }
 
-        /* TERS DÜZEN (ZIG-ZAG) */
         .reverse-layout { flex-direction: row-reverse; }
 
         /* FOTOĞRAF ALANI */
@@ -46,7 +46,7 @@
             transition: transform 0.5s ease;
         }
 
-        /* ŞİİR ALANI */
+        /* YAZI ALANI */
         .lyrics-area {
             flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 40px; text-align: center;
@@ -54,32 +54,27 @@
         }
 
         h2 {
-            font-size: 2.5rem; margin-bottom: 40px; color: #f8b500;
+            font-size: 2.2rem; margin-bottom: 20px; color: #f8b500;
             text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: opacity 0.5s;
         }
 
-        /* KITA GÖRÜNÜMÜ */
         .stanza-box {
-            min-height: 150px; /* Sabit yükseklik ki zıplama yapmasın */
+            min-height: 250px; /* Uzun metinler için alanı büyüttüm */
             display: flex; align-items: center; justify-content: center;
+            width: 100%;
         }
 
         .poem-text {
-            font-size: 1.6rem; line-height: 1.6; font-weight: 600;
+            font-size: 1.3rem; line-height: 1.6; font-weight: 600;
             color: rgba(255, 255, 255, 0.95);
             white-space: pre-line;
-            opacity: 0; /* JS ile açılacak */
-            transform: translateY(20px);
-            transition: all 1s ease-in-out; /* Yumuşak geçiş efekti */
+            opacity: 0; transform: translateY(20px);
+            transition: all 1s ease-in-out;
         }
 
-        .poem-text.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .poem-text.visible { opacity: 1; transform: translateY(0); }
 
-        /* BUTONLAR */
+        /* KONTROLLER */
         .controls {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 30px; z-index: 20;
@@ -101,15 +96,20 @@
             flex-direction: column; justify-content: center; align-items: center;
         }
 
+        /* NOKTALI GÖSTERGE */
+        #stanza-indicator {
+            margin-top: 20px; font-size: 12px; color: #f8b500; letter-spacing: 3px; opacity: 0.7;
+        }
+
         /* MOBİL */
         @media (max-width: 768px) {
             .main-container, .reverse-layout { flex-direction: column !important; }
-            .photo-area { flex: 0.8; height: auto; padding-bottom: 0; }
-            .photo-card { max-height: 40vh; }
-            .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 20px; }
-            h2 { font-size: 1.8rem; margin-bottom: 20px; }
-            .poem-text { font-size: 1.2rem; }
-            .stanza-box { min-height: 120px; }
+            .photo-area { flex: 0.8; padding-bottom: 0; }
+            .photo-card { max-height: 35vh; }
+            .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 10px; }
+            h2 { font-size: 1.5rem; margin-bottom: 10px; }
+            .poem-text { font-size: 1rem; }
+            .stanza-box { min-height: 200px; }
         }
     </style>
 </head>
@@ -133,7 +133,6 @@
     <div id="bg-blur"></div>
 
     <div class="main-container" id="main-app" style="opacity: 0; transition: opacity 1s;">
-        
         <div class="photo-area">
             <img id="current-photo" class="photo-card" src="ani1.jpeg">
         </div>
@@ -143,7 +142,7 @@
             <div class="stanza-box">
                 <p class="poem-text" id="poem-stanza"></p>
             </div>
-            <div style="margin-top: 20px; font-size: 12px; opacity: 0.5; letter-spacing: 2px;" id="stanza-indicator">...</div>
+            <div id="stanza-indicator">...</div>
         </div>
 
         <div class="controls">
@@ -156,7 +155,7 @@
     <script>
         const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
         
-        // ŞİİR İÇERİKLERİ
+        // ŞİİRLER + 12 NEDEN
         const content = [
             { 
                 title: "Güzelliğine Şiirler Yetişmez", 
@@ -192,6 +191,12 @@
                 title: "EHEHEHE🤭", 
                 img: "ani1.jpeg", 
                 text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" 
+            },
+            /* --- 12 NEDENİN HEPSİ BURADA (HER BİRİ AYRI EKRAN GİBİ GELECEK) --- */
+            {
+                title: "Peki Neden Sen? 💛",
+                img: "ani1.jpeg",
+                text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve sen olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen."
             }
         ];
 
@@ -204,6 +209,7 @@
         const title = document.getElementById('poem-title');
         const stanzaText = document.getElementById('poem-stanza');
         const playBtn = document.getElementById('playBtn');
+        const indicator = document.getElementById('stanza-indicator');
 
         function startExperience() {
             bgMusic.src = musicSource;
@@ -219,51 +225,45 @@
         }
 
         function loadSlide(index) {
-            // Önceki zamanlayıcıyı temizle
             clearInterval(stanzaInterval);
-            stanzaText.classList.remove('visible'); // Yazıyı gizle
+            stanzaText.classList.remove('visible'); 
             
             setTimeout(() => {
-                // İçerikleri Yükle
                 let currentItem = content[index];
                 photo.src = currentItem.img;
                 bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
                 title.innerText = currentItem.title;
 
-                // Zig-Zag Düzen Kontrolü
                 if (index % 2 !== 0) { container.classList.add('reverse-layout'); } 
                 else { container.classList.remove('reverse-layout'); }
 
-                // Şiiri Kıtalarına Böl (\n\n ile ayrılan boşluklardan)
                 let stanzas = currentItem.text.split('\n\n');
                 let stanzaIndex = 0;
 
-                // İlk kıtayı göster
                 showStanza(stanzas, stanzaIndex);
 
-                // Otomatik Döngü Başlat (Her 5.5 saniyede bir değişir)
+                // Bu kısım çok önemli: Her 8 saniyede bir sonraki maddeye geçecek
                 stanzaInterval = setInterval(() => {
                     stanzaIndex = (stanzaIndex + 1) % stanzas.length;
                     showStanza(stanzas, stanzaIndex);
-                }, 5500);
+                }, 8000); 
 
             }, 300);
         }
 
         function showStanza(stanzas, index) {
-            stanzaText.classList.remove('visible'); // Önce sön
+            stanzaText.classList.remove('visible'); 
             
             setTimeout(() => {
-                stanzaText.innerText = stanzas[index]; // Metni değiştir
-                stanzaText.classList.add('visible'); // Geri yan
+                stanzaText.innerText = stanzas[index];
+                stanzaText.classList.add('visible'); 
                 
-                // Noktalı gösterge (Kaçıncı kıtada olduğumuzu gösterir)
                 let dots = "";
                 for(let i=0; i<stanzas.length; i++) {
                     dots += (i === index) ? "● " : "○ ";
                 }
-                document.getElementById('stanza-indicator').innerText = dots;
-            }, 600); // Sönme süresi kadar bekle
+                indicator.innerText = dots;
+            }, 600); 
         }
 
         function nextSlide() {
