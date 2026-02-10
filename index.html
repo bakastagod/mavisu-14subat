@@ -28,7 +28,7 @@
             background-size: cover; background-position: center;
             opacity: 0; /* Normalde gizli */
             z-index: 1;
-            filter: brightness(0.3) grayscale(50%); /* Yazılar okunsun diye kararttım */
+            filter: brightness(0.3) grayscale(20%); /* Yazılar okunsun diye kararttım */
             transition: opacity 0.5s ease;
         }
 
@@ -102,7 +102,7 @@
 
         .special-mode .poem-text {
             font-size: 1.8rem; 
-            text-shadow: 0 2px 20px rgba(0,0,0,1); /* Arkası hareketli olduğu için güçlü gölge */
+            text-shadow: 0 2px 20px rgba(0,0,0,1);
         }
 
         /* KALP ANİMASYONU */
@@ -203,11 +203,11 @@
     <script>
         const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
         
-        // --- BURASI ÇOK ÖNEMLİ: EKRAN GÖRÜNTÜLERİNİ BURAYA YAZACAKSIN ---
-        // Şimdilik test için normal fotoları koydum. Sen ss1.jpg, ss2.jpg diye yükleyip burayı değiştir.
+        // --- GÜNCELLENEN MESAJ LİSTESİ ---
         const chatImages = [
-            "ani1.jpeg", "ani2.jpeg", "ani3.jpeg", "ani4.jpeg", "ani5.jpeg", "ani6.jpeg"
-            // Buraya istediğin kadar ekleyebilirsin: "ss1.jpg", "ss2.jpg" ...
+            "mesaj1.jpeg", "mesaj2.jpeg", "mesaj3.jpeg", "mesaj4.jpeg", 
+            "mesaj5.jpeg", "mesaj6.jpeg", "mesaj7.jpeg", "mesaj8.jpeg", 
+            "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"
         ];
 
         const content = [
@@ -257,7 +257,7 @@
 
         let slideIndex = 0;
         let stanzaInterval;
-        let flashInterval; // Hızlı resim değişimi için zamanlayıcı
+        let flashInterval; 
 
         const bgMusic = document.getElementById('bg-music');
         const bgBlur = document.getElementById('bg-blur');
@@ -285,7 +285,7 @@
 
         function loadSlide(index) {
             clearInterval(stanzaInterval);
-            stopFlash(); // Önceki flash varsa durdur
+            stopFlash(); 
             stanzaText.classList.remove('visible'); 
             
             setTimeout(() => {
@@ -335,16 +335,17 @@
 
         function startFlash() {
             flashBg.style.opacity = '1';
-            bgBlur.style.opacity = '0'; // Normali gizle
+            bgBlur.style.opacity = '0'; 
             
             let flashIndex = 0;
             // İlk resmi hemen göster
             flashBg.style.backgroundImage = `url('${chatImages[0]}')`;
 
+            // 120ms = 0.12 saniye hızla değişir
             flashInterval = setInterval(() => {
                 flashIndex = (flashIndex + 1) % chatImages.length;
                 flashBg.style.backgroundImage = `url('${chatImages[flashIndex]}')`;
-            }, 150); // 0.15 saniye (150ms) hızla değişir
+            }, 120); 
         }
 
         function stopFlash() {
