@@ -10,185 +10,181 @@
         body, html {
             margin: 0; padding: 0; height: 100%; overflow: hidden;
             font-family: 'Montserrat', sans-serif;
-            background: #121212;
+            background: #050505;
             color: white;
+        }
+
+        /* --- VIGNETTE (SİNEMATİK KENAR KARARTMA) --- */
+        .vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.8) 100%);
+            z-index: 5; pointer-events: none;
+        }
+
+        /* --- ARKA PLAN VE ATEŞ BÖCEKLERİ --- */
+        #bg-blur {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(20px) brightness(0.3);
+            transition: opacity 0.8s ease, background-image 1s ease;
+            z-index: 1; transform: scale(1.1); /* Kenar beyazlıklarını önler */
+        }
+
+        .firefly {
+            position: absolute; width: 4px; height: 4px;
+            background-color: #ffd700; border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ff3366;
+            animation: fly 10s linear infinite;
+            z-index: 4; opacity: 0; pointer-events: none;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            50% { opacity: 0.5; }
+            90% { opacity: 1; }
+            100% { transform: translate(100px, -100vh) scale(0.5); opacity: 0; }
         }
 
         /* --- ROMANTİK GİRİŞ EKRANI --- */
         #start-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Derin Kırmızı/Bordo Romantik Arka Plan */
-            background: radial-gradient(circle at center, #5c0000 0%, #1a0000 100%);
+            background: radial-gradient(circle at center, #5c0000 0%, #000000 100%);
             z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden;
         }
 
-        /* Giriş Ekranındaki Uçuşan Kalpler */
         .intro-heart {
-            position: absolute;
-            top: -10%;
-            color: #ff3366;
-            animation: fall linear forwards;
-            z-index: 90;
+            position: absolute; top: -10%; color: #ff3366;
+            animation: fall linear forwards; z-index: 90;
         }
-        
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        /* Giriş Kartı */
         .start-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffd700; /* Altın Çerçeve */
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(255, 51, 102, 0.3); /* Kırmızı Glow */
-            max-width: 90%;
-            width: 450px;
-            z-index: 101;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px; padding: 40px; text-align: center;
+            box-shadow: 0 0 60px rgba(255, 51, 102, 0.2);
+            max-width: 90%; width: 450px; z-index: 101;
             animation: zoomIn 1s ease;
         }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .start-title {
-            font-family: 'Dancing Script', cursive; /* El Yazısı */
-            color: #ffd700; /* Altın Sarısı */
-            font-size: 3.5rem; 
-            margin-bottom: 10px; 
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            line-height: 1.2;
+            font-family: 'Dancing Script', cursive; color: #ffd700; font-size: 3.5rem; 
+            margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); line-height: 1.2;
         }
+        .start-desc { color: #ffdde1; font-size: 1.1rem; margin-bottom: 30px; font-weight: 500; }
 
-        .start-desc {
-            color: #ffdde1; /* Açık Pembe */
-            font-size: 1.1rem; 
-            margin-bottom: 30px; 
-            font-weight: 500;
-        }
-
-        /* Şarkı Butonları (Romantik Stil) */
         .song-btn {
-            background: linear-gradient(45deg, #ff3366, #ff6b6b); /* Pembe/Kırmızı Gradyan */
-            border: none;
-            color: white; 
-            padding: 15px 20px; 
-            margin: 12px 0; 
-            width: 100%;
-            border-radius: 50px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            cursor: pointer;
-            transition: all 0.3s ease; 
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
-            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(45deg, #ff3366, #ff6b6b); border: none;
+            color: white; padding: 15px 20px; margin: 12px 0; width: 100%;
+            border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); font-family: 'Montserrat', sans-serif;
         }
-        
         .song-btn:hover { 
-            transform: scale(1.05) translateY(-3px); 
-            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.6);
-            background: linear-gradient(45deg, #ffd700, #ffcc00); /* Üzerine gelince Altın Sarısı */
-            color: #5c0000;
+            transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 25px rgba(255, 51, 102, 0.6);
+            background: linear-gradient(45deg, #ffd700, #ffcc00); color: #5c0000;
         }
 
-        /* --- DİĞER STİLLER --- */
-        #bg-blur {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            filter: blur(30px) brightness(0.4);
-            transition: opacity 0.8s ease;
-            z-index: 1;
-        }
-
-        #chat-flash-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            opacity: 0; z-index: 1;
-            filter: brightness(0.3) grayscale(20%); 
-            transition: opacity 0.8s ease;
-        }
-
-        .floating-heart {
-            position: absolute; bottom: -50px; color: #ffd700; font-size: 24px;
-            z-index: 5; opacity: 0.6; animation: floatUp linear forwards; pointer-events: none;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
-
+        /* --- ANA AKIŞ --- */
         .main-container {
             position: relative; z-index: 10; display: flex; height: 100%; width: 100%;
             justify-content: center; align-items: center; transition: all 0.8s ease;
         }
-
         .reverse-layout { flex-direction: row-reverse; }
 
+        /* FOTOĞRAF KARTI VE YÜZME EFEKTİ */
         .photo-area {
             flex: 1; display: flex; justify-content: center; align-items: center;
-            padding: 20px; height: 100vh; transition: opacity 0.5s ease, transform 0.5s ease; 
+            padding: 20px; height: 100vh; transition: opacity 0.5s ease, transform 0.5s ease;
         }
-
-        .fade-out { opacity: 0; transform: scale(0.95); }
         
         .photo-card {
-            width: auto; max-width: 90%; max-height: 70vh;
-            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); object-fit: contain;
+            width: auto; max-width: 85%; max-height: 65vh;
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255, 215, 0, 0.1);
+            object-fit: contain;
+            animation: floatPhoto 6s ease-in-out infinite; /* Yüzme Efekti */
         }
 
+        @keyframes floatPhoto {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* METİN ALANI VE CAM KUTU */
         .lyrics-area {
             flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 40px; text-align: center; height: 100vh; 
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        h2 {
-            font-size: 2.5rem; margin-bottom: 30px; color: #f8b500;
-            text-shadow: 0 0 15px rgba(248, 181, 0, 0.4); transition: all 0.5s;
+        .stanza-box {
+            /* Buzlu Cam Efekti */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 250px; 
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            width: 80%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: all 0.5s ease;
         }
 
-        .stanza-box {
-            min-height: 200px; display: flex; align-items: center; justify-content: center;
-            width: 100%; flex-direction: column;
+        h2 {
+            font-family: 'Dancing Script', cursive; /* Başlıklar El Yazısı */
+            font-size: 3.5rem; margin-bottom: 20px; color: #f8b500;
+            text-shadow: 0 0 20px rgba(248, 181, 0, 0.6); transition: all 0.5s;
         }
 
         .poem-text {
-            font-size: 1.4rem; line-height: 1.6; font-weight: 600; color: rgba(255, 255, 255, 0.95);
-            white-space: pre-line; opacity: 0; transform: translateY(20px); transition: all 1s ease-in-out;
+            font-size: 1.5rem; line-height: 1.7; font-weight: 500; 
+            color: rgba(255, 255, 255, 0.95);
+            white-space: pre-line; opacity: 0; 
+            transform: translateY(10px); filter: blur(5px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .poem-text.visible { opacity: 1; transform: translateY(0); }
+        .poem-text.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
+        /* ÖZEL MODLAR */
         .special-mode .photo-area { display: none; }
         .special-mode .lyrics-area { flex: 1; width: 100%; padding: 0 20px; }
-        .special-mode h2 { font-size: 3.5rem; color: #ff4d4d; text-shadow: 0 0 30px rgba(255, 77, 77, 0.8); }
+        .special-mode h2 { font-size: 4.5rem; color: #ff3366; text-shadow: 0 0 40px rgba(255, 51, 102, 0.8); }
+        .special-mode .stanza-box { width: 90%; background: rgba(0,0,0,0.4); border-color: #ff3366; }
         .special-mode .poem-text { font-size: 1.8rem; text-shadow: 0 2px 20px rgba(0,0,0,1); }
 
         .time-mode .photo-area { display: none; }
         .time-mode .lyrics-area { flex: 1; width: 100%; }
-        .time-mode h2 { font-size: 3rem; color: #00d2ff; text-shadow: 0 0 40px rgba(0, 210, 255, 0.8); }
+        .time-mode .stanza-box { width: 90%; border-color: #00d2ff; }
+        .time-mode h2 { font-size: 3.5rem; color: #00d2ff; text-shadow: 0 0 40px rgba(0, 210, 255, 0.8); }
         
         #day-counter {
             font-family: 'Orbitron', sans-serif; font-size: 6rem; color: #f8b500;
             text-shadow: 0 0 50px rgba(248, 181, 0, 0.8); margin: 20px 0; display: none; 
         }
 
+        /* DİĞERLERİ */
+        .fade-out { opacity: 0; transform: scale(0.95); }
+        #chat-flash-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0; z-index: 2; filter: brightness(0.3) grayscale(20%); 
+            transition: opacity 0.8s ease;
+        }
+        
         .heart-beat {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 30vw; opacity: 0; pointer-events: none; z-index: 2;
+            font-size: 30vw; opacity: 0; pointer-events: none; z-index: 3;
             color: rgba(255, 0, 0, 0.15); animation: beat 2s infinite; display: none;
         }
-
-        @keyframes beat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
+        @keyframes beat { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
 
         .controls {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -196,24 +192,21 @@
             background: rgba(255,255,255,0.1); padding: 10px 40px; border-radius: 50px;
             backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
         }
-
-        .btn {
-            background: none; border: none; color: white; font-size: 28px; cursor: pointer; transition: 0.3s; opacity: 0.8;
-        }
+        .btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; transition: 0.3s; opacity: 0.8; }
         .btn:hover { color: #f8b500; transform: scale(1.2); opacity: 1; }
-
         #stanza-indicator { margin-top: 20px; font-size: 14px; color: #f8b500; letter-spacing: 3px; opacity: 0.7; }
 
         @media (max-width: 768px) {
             .main-container, .reverse-layout { flex-direction: column !important; }
-            .photo-area { flex: 0.8; padding-bottom: 0; }
-            .photo-card { max-height: 40vh; }
-            .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 20px; }
-            h2 { font-size: 1.8rem; margin-bottom: 15px; }
-            .poem-text { font-size: 1.1rem; }
-            .special-mode .poem-text { font-size: 1.4rem; }
-            .special-mode h2 { font-size: 2.2rem; }
-            #day-counter { font-size: 4rem; }
+            .photo-area { flex: 0.8; padding-bottom: 0; padding-top: 60px; }
+            .photo-card { max-height: 35vh; }
+            .lyrics-area { flex: 1.2; justify-content: flex-start; padding-top: 10px; }
+            h2 { font-size: 2.2rem; margin-bottom: 10px; }
+            .stanza-box { width: 90%; min-height: 200px; padding: 20px; }
+            .poem-text { font-size: 1.2rem; }
+            .special-mode .poem-text { font-size: 1.3rem; }
+            .special-mode h2 { font-size: 2.5rem; }
+            #day-counter { font-size: 3.5rem; }
             .start-card { padding: 25px; width: 85%; }
             .start-title { font-size: 2rem; }
         }
@@ -224,8 +217,7 @@
     <div id="start-overlay">
         <div class="start-card">
             <h1 class="start-title">EHEHEHE...<br>Demek QR'ı Okuttun! 💛</h1>
-            <p class="start-desc">Senin için 3 farklı şarkı seçtim. Moduna göre birini seç ve arkana yaslan...</p>
-            
+            <p class="start-desc">Beğenebileceğin 3 farklı şarkı seçtimmm devam ederken dinlemek istediğini seçebilirsinnn💛</p>
             <div class="button-group">
                 <button class="song-btn" onclick="startExperience('tekit.mp3')">🎵 Cafuné - Tek It</button>
                 <button class="song-btn" onclick="startExperience('weare.mp3')">🎵 One Ok Rock - We Are</button>
@@ -234,11 +226,9 @@
         </div>
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="" type="audio/mpeg">
-    </audio>
+    <audio id="bg-music" loop><source src="" type="audio/mpeg"></audio>
 
-    <div id="bg-blur"></div>
+    <div class="vignette"></div> <div id="bg-blur"></div>
     <div id="chat-flash-bg"></div>
     <div class="heart-beat" id="big-heart">❤</div>
 
@@ -249,12 +239,10 @@
 
         <div class="lyrics-area" id="lyrics-area">
             <h2 id="poem-title"></h2>
-            
             <div class="stanza-box">
                 <div id="day-counter">0</div>
                 <p class="poem-text" id="poem-stanza"></p>
             </div>
-            
             <div id="stanza-indicator">...</div>
         </div>
 
@@ -266,34 +254,52 @@
     </div>
 
     <script>
-        // --- SADECE GİRİŞ EKRANI İÇİN KALP YAĞMURU ---
+        // --- ATEŞ BÖCEĞİ OLUŞTURUCU (Mistik Ortam) ---
+        function createFireflies() {
+            const container = document.body;
+            const firefly = document.createElement('div');
+            firefly.classList.add('firefly');
+            
+            // Rastgele konum ve animasyon süresi
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 5 + 5; // 5 ile 10 sn arası
+            const size = Math.random() * 4 + 2;
+
+            firefly.style.left = startX + 'px';
+            firefly.style.bottom = '-10px';
+            firefly.style.width = size + 'px';
+            firefly.style.height = size + 'px';
+            firefly.style.animationDuration = duration + 's';
+
+            container.appendChild(firefly);
+            setTimeout(() => { firefly.remove(); }, duration * 1000);
+        }
+        
+        // --- KALP YAĞMURU (Giriş İçin) ---
         function createIntroHearts() {
             const overlay = document.getElementById('start-overlay');
-            if (overlay.style.display === 'none') return; // Eğer giriş ekranı kapandıysa kalp üretme
-
+            if (overlay.style.display === 'none') return; 
             const heart = document.createElement('div');
             heart.classList.add('intro-heart');
-            heart.innerHTML = Math.random() > 0.5 ? '💛' : '❤️'; // Rastgele Sarı veya Kırmızı
+            heart.innerHTML = Math.random() > 0.5 ? '💛' : '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
             heart.style.animationDuration = (Math.random() * 2 + 3) + 's'; 
             overlay.appendChild(heart);
-            
             setTimeout(() => { heart.remove(); }, 5000);
         }
-        setInterval(createIntroHearts, 300); // Çok sık kalp yağsın
 
-        // MESAJ LİSTESİ
+        // Başlangıçta kalpler yağsın
+        const heartInterval = setInterval(createIntroHearts, 300);
+
+        // --- VERİLER ---
         const chatImages = [
             "mesaj1.jpeg", "mesaj2.jpeg", "mesaj3.jpeg", "mesaj4.jpeg", 
             "mesaj5.jpeg", "mesaj6.jpeg", "mesaj7.jpeg", "mesaj8.jpeg", 
             "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"
         ];
-
-        // Ön Yükleme
         chatImages.forEach(src => { const img = new Image(); img.src = src; });
 
-        // Gün Hesaplama
         const startDate = new Date("2023-08-28");
         const today = new Date();
         const diffDays = Math.ceil(Math.abs(today - startDate) / (1000 * 60 * 60 * 24)); 
@@ -306,9 +312,7 @@
             { title: "Dünyamın En Güzeli", img: "ani5.jpeg", text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\n\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\n\nNice günler var dertli, ızdıraplı, bahtsız\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\n\nNedir bizdeki bu dert, keder?\nFenerbahçeliydi ya senin peder.🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\n\nDünyanın 7 güzelliğini ardında bırakan\nSensin dünyamın güzeli." },
             { title: "Aşkın 6 Harflisi", img: "ani6.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\n\nGüzelliğin öyle güzel idir\nÜzerimden çıkmayan bir kir\n\nKirin güzeli olur mu deme, olurmuş.\nÜzerimden ayrılmayan bu şey bir kusur muymuş?\n\nSanmam bunun bir kusur olduğunu\nSenden kaynaklı her şey pek âlâ pek hoş olurmuş.\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\n\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." },
             { title: "EHEHEHE🤭", img: "ani1.jpeg", text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" },
-            /* ZAMAN SAYACI */
             { title: "Biliyor musun? ⏳", isTime: true, img: "ani2.jpeg", text: "9. Sınıfa başlamadan hemen önceydi...\nTanıştığımız o ilk günden bugüne;\n\nSeninle geçen her saniye ömrüme ömür kattı.\nİyi ki varsın, iyi ki beni buldun." },
-            /* FİNAL: 12 NEDEN */
             { title: "Peki Neden Sen? 💛", isSpecial: true, img: "ani1.jpeg", text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve son olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen." }
         ];
 
@@ -328,32 +332,16 @@
         const indicator = document.getElementById('stanza-indicator');
         const bigHeart = document.getElementById('big-heart');
 
-        // Ana Akış Kalp Animasyonu (Girişten Sonra)
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerHTML = '💛';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 7000);
-        }
-        setInterval(createFloatingHeart, 600); 
-
-        // Şarkı Seçimi ve Başlatma
         function startExperience(songFile) {
             bgMusic.src = songFile;
-            bgMusic.play()
-                .then(() => { playBtn.innerText = "⏸"; })
-                .catch(e => { 
-                    console.log("Müzik hatası:", e);
-                    playBtn.innerText = "▶"; 
-                    alert("Müzik başlatılamadı, lütfen ekrana dokunun veya dosya adını kontrol edin.");
-                });
+            bgMusic.play().then(() => { playBtn.innerText = "⏸"; }).catch(e => { playBtn.innerText = "▶"; alert("Müzik için ekrana dokun."); });
 
             document.getElementById('start-overlay').style.display = 'none';
             container.style.opacity = '1';
+            
+            // Ateş böceklerini başlat
+            setInterval(createFireflies, 500);
+            
             loadSlide(0);
         }
 
@@ -377,14 +365,12 @@
             clearInterval(stanzaInterval);
             stopFlash(); 
             
-            // Geçiş Efekti (Fade Out)
             photoArea.classList.add('fade-out');
             lyricsArea.classList.add('fade-out');
 
             setTimeout(() => {
                 let currentItem = content[index];
                 
-                // Temizlik
                 container.classList.remove('special-mode', 'time-mode');
                 bigHeart.style.display = 'none';
                 flashBg.style.opacity = '0';
@@ -392,7 +378,6 @@
                 stanzaText.classList.remove('visible'); 
                 dayCounter.style.display = 'none';
 
-                // Mod Kontrolü
                 if (currentItem.isSpecial) {
                     container.classList.add('special-mode');
                     bigHeart.style.display = 'block';
@@ -415,7 +400,6 @@
                     else { container.classList.remove('reverse-layout'); }
                 }
 
-                // Geçiş Efekti (Fade In)
                 photoArea.classList.remove('fade-out');
                 lyricsArea.classList.remove('fade-out');
 
@@ -423,9 +407,7 @@
                 let stanzaIndex = 0;
                 showStanza(stanzas, stanzaIndex);
 
-                // Süre Ayarı (Hızlandırılmış)
                 let duration = currentItem.isSpecial ? 7250 : 4750;
-
                 stanzaInterval = setInterval(() => {
                     stanzaIndex = (stanzaIndex + 1) % stanzas.length;
                     showStanza(stanzas, stanzaIndex);
