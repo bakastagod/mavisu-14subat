@@ -15,16 +15,15 @@
             color: white;
         }
 
-        /* NORMAL ARKA PLAN */
+        /* ARKA PLANLAR */
         #bg-blur {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
             filter: blur(30px) brightness(0.4);
-            transition: opacity 0.8s ease; /* Geçiş süresi uzatıldı */
+            transition: opacity 0.8s ease;
             z-index: 1;
         }
 
-        /* FLASHBACK ARKA PLANI */
         #chat-flash-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
@@ -33,16 +32,10 @@
             transition: opacity 0.8s ease;
         }
 
-        /* UÇUŞAN SARI KALPLER */
+        /* SARI KALPLER */
         .floating-heart {
-            position: absolute;
-            bottom: -50px;
-            color: #ffd700; /* Altın Sarısı */
-            font-size: 24px;
-            z-index: 5;
-            opacity: 0.6;
-            animation: floatUp linear forwards;
-            pointer-events: none; /* Tıklamayı engellemesin */
+            position: absolute; bottom: -50px; color: #ffd700; font-size: 24px;
+            z-index: 5; opacity: 0.6; animation: floatUp linear forwards; pointer-events: none;
         }
 
         @keyframes floatUp {
@@ -50,65 +43,50 @@
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
+        /* ANA YAPI */
         .main-container {
-            position: relative; z-index: 10;
-            display: flex; height: 100%; width: 100%;
-            justify-content: center; align-items: center;
-            transition: all 0.8s ease;
+            position: relative; z-index: 10; display: flex; height: 100%; width: 100%;
+            justify-content: center; align-items: center; transition: all 0.8s ease;
         }
 
         .reverse-layout { flex-direction: row-reverse; }
 
         .photo-area {
             flex: 1; display: flex; justify-content: center; align-items: center;
-            padding: 20px; height: 100vh;
-            /* Yeni Geçiş Efekti */
-            transition: opacity 0.5s ease, transform 0.5s ease; 
+            padding: 20px; height: 100vh; transition: opacity 0.5s ease, transform 0.5s ease; 
         }
 
-        /* İçerik değişirken gizleme sınıfı */
-        .fade-out {
-            opacity: 0;
-            transform: scale(0.95); /* Hafif küçülerek kaybolur */
-        }
+        .fade-out { opacity: 0; transform: scale(0.95); }
         
         .photo-card {
             width: auto; max-width: 90%; max-height: 70vh;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-            object-fit: contain;
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); object-fit: contain;
         }
 
         .lyrics-area {
             flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 40px; text-align: center;
-            height: 100vh; 
+            padding: 40px; text-align: center; height: 100vh; 
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         h2 {
             font-size: 2.5rem; margin-bottom: 30px; color: #f8b500;
-            text-shadow: 0 0 15px rgba(248, 181, 0, 0.4); /* Neon Glow */
-            transition: all 0.5s;
+            text-shadow: 0 0 15px rgba(248, 181, 0, 0.4); transition: all 0.5s;
         }
 
         .stanza-box {
-            min-height: 200px; 
-            display: flex; align-items: center; justify-content: center;
+            min-height: 200px; display: flex; align-items: center; justify-content: center;
             width: 100%; flex-direction: column;
         }
 
         .poem-text {
-            font-size: 1.4rem; line-height: 1.6; font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
-            white-space: pre-line;
-            opacity: 0; transform: translateY(20px);
-            transition: all 1s ease-in-out;
+            font-size: 1.4rem; line-height: 1.6; font-weight: 600; color: rgba(255, 255, 255, 0.95);
+            white-space: pre-line; opacity: 0; transform: translateY(20px); transition: all 1s ease-in-out;
         }
 
         .poem-text.visible { opacity: 1; transform: translateY(0); }
 
-        /* MODLAR */
+        /* ÖZEL MODLAR */
         .special-mode .photo-area { display: none; }
         .special-mode .lyrics-area { flex: 1; width: 100%; padding: 0 20px; }
         .special-mode h2 { font-size: 3.5rem; color: #ff4d4d; text-shadow: 0 0 30px rgba(255, 77, 77, 0.8); }
@@ -119,21 +97,14 @@
         .time-mode h2 { font-size: 3rem; color: #00d2ff; text-shadow: 0 0 40px rgba(0, 210, 255, 0.8); }
         
         #day-counter {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6rem;
-            color: #f8b500;
-            text-shadow: 0 0 50px rgba(248, 181, 0, 0.8);
-            margin: 20px 0;
-            display: none; 
+            font-family: 'Orbitron', sans-serif; font-size: 6rem; color: #f8b500;
+            text-shadow: 0 0 50px rgba(248, 181, 0, 0.8); margin: 20px 0; display: none; 
         }
 
-        /* MERKEZDEKİ BÜYÜK KALP (Sadece finalde) */
         .heart-beat {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             font-size: 30vw; opacity: 0; pointer-events: none; z-index: 2;
-            color: rgba(255, 0, 0, 0.15);
-            animation: beat 2s infinite;
-            display: none;
+            color: rgba(255, 0, 0, 0.15); animation: beat 2s infinite; display: none;
         }
 
         @keyframes beat {
@@ -149,21 +120,25 @@
         }
 
         .btn {
-            background: none; border: none; color: white;
-            font-size: 28px; cursor: pointer; transition: 0.3s; opacity: 0.8;
+            background: none; border: none; color: white; font-size: 28px; cursor: pointer; transition: 0.3s; opacity: 0.8;
         }
         .btn:hover { color: #f8b500; transform: scale(1.2); opacity: 1; }
 
         #start-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            z-index: 100; display: flex;
-            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
+        
+        .song-btn {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white; padding: 15px 30px; margin: 10px; width: 280px;
+            border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .song-btn:hover { background: #f8b500; color: black; transform: scale(1.05); border-color: #f8b500; }
 
-        #stanza-indicator {
-            margin-top: 20px; font-size: 14px; color: #f8b500; letter-spacing: 3px; opacity: 0.7;
-        }
+        #stanza-indicator { margin-top: 20px; font-size: 14px; color: #f8b500; letter-spacing: 3px; opacity: 0.7; }
 
         @media (max-width: 768px) {
             .main-container, .reverse-layout { flex-direction: column !important; }
@@ -175,6 +150,7 @@
             .special-mode .poem-text { font-size: 1.4rem; }
             .special-mode h2 { font-size: 2.2rem; }
             #day-counter { font-size: 4rem; }
+            .song-btn { width: 90%; font-size: 16px; }
         }
     </style>
 </head>
@@ -182,17 +158,15 @@
 
     <div id="start-overlay">
         <h1 style="color: #f8b500; font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 0 20px rgba(248, 181, 0, 0.6);">Mavisu 💛</h1>
-        <p style="color: #aaa; margin-bottom: 30px;">Sesi Aç ve Tıkla...</p>
-        <button onclick="startExperience()" style="
-            background: #1db954; color: black; border: none; 
-            padding: 15px 50px; font-size: 20px; border-radius: 50px; 
-            font-weight: bold; cursor: pointer; box-shadow: 0 10px 30px rgba(29, 185, 84, 0.4);">
-            ▶ BAŞLAT
-        </button>
+        <p style="color: #aaa; margin-bottom: 30px;">Hangi şarkıyla başlayalım?</p>
+        
+        <button class="song-btn" onclick="startExperience('tekit.mp3')">🎵 Cafuné - Tek It</button>
+        <button class="song-btn" onclick="startExperience('weare.mp3')">🎵 One Ok Rock - We Are</button>
+        <button class="song-btn" onclick="startExperience('ıslansın.mp3')">🎵 Yalın - Islansın</button>
     </div>
 
     <audio id="bg-music" loop>
-        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Alternative_Grooves/Ketsa_-_04_-_Look_at_Me_Now.mp3" type="audio/mpeg">
+        <source src="" type="audio/mpeg">
     </audio>
 
     <div id="bg-blur"></div>
@@ -223,15 +197,14 @@
     </div>
 
     <script>
-        const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
-        
+        // MESAJ LİSTESİ (Flashback için)
         const chatImages = [
             "mesaj1.jpeg", "mesaj2.jpeg", "mesaj3.jpeg", "mesaj4.jpeg", 
             "mesaj5.jpeg", "mesaj6.jpeg", "mesaj7.jpeg", "mesaj8.jpeg", 
             "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"
         ];
 
-        // Fotoğrafları önceden yükle
+        // Ön Yükleme
         chatImages.forEach(src => { const img = new Image(); img.src = src; });
 
         // Gün Hesaplama
@@ -239,7 +212,6 @@
         const today = new Date();
         const diffDays = Math.ceil(Math.abs(today - startDate) / (1000 * 60 * 60 * 24)); 
 
-        // İçerik Listesi
         const content = [
             { title: "Güzelliğine Şiirler Yetişmez", img: "ani1.jpeg", text: "Kökü sende olan saçların\nBeni sürekli sana bağlıyor davranışların\n\nDenizleri, gökyüzünü içinde barındıran gözlerin\nSöylediğin bencilce sözlerin\n\nTam 12den vuruyor\nSinsi sinsi gülüşlerin." },
             { title: "MAVİSU AKIN ŞİİRİ", img: "ani2.jpeg", text: "Aşk bir şiir olsaydı\nBaşlığı sen olurdun.\n\nGüzellik bir benzetme olsaydı\nBenzetilen sen olurdun.\n\nGüzelliğin insana şapka çıkartır\nSalaklığın Ahmetle yarışır\n\nGözlerin cenneti anımsatır\nSarı saçların güneşi geride bırakır." },
@@ -248,9 +220,9 @@
             { title: "Dünyamın En Güzeli", img: "ani5.jpeg", text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\n\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\n\nNice günler var dertli, ızdıraplı, bahtsız\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\n\nNedir bizdeki bu dert, keder?\nFenerbahçeliydi ya senin peder.🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\n\nDünyanın 7 güzelliğini ardında bırakan\nSensin dünyamın güzeli." },
             { title: "Aşkın 6 Harflisi", img: "ani6.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\n\nGüzelliğin öyle güzel idir\nÜzerimden çıkmayan bir kir\n\nKirin güzeli olur mu deme, olurmuş.\nÜzerimden ayrılmayan bu şey bir kusur muymuş?\n\nSanmam bunun bir kusur olduğunu\nSenden kaynaklı her şey pek âlâ pek hoş olurmuş.\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\n\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." },
             { title: "EHEHEHE🤭", img: "ani1.jpeg", text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" },
-            /* ZAMAN */
+            /* ZAMAN SAYACI */
             { title: "Biliyor musun? ⏳", isTime: true, img: "ani2.jpeg", text: "9. Sınıfa başlamadan hemen önceydi...\nTanıştığımız o ilk günden bugüne;\n\nSeninle geçen her saniye ömrüme ömür kattı.\nİyi ki varsın, iyi ki beni buldun." },
-            /* FİNAL */
+            /* FİNAL: 12 NEDEN */
             { title: "Peki Neden Sen? 💛", isSpecial: true, img: "ani1.jpeg", text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve son olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen." }
         ];
 
@@ -270,23 +242,28 @@
         const indicator = document.getElementById('stanza-indicator');
         const bigHeart = document.getElementById('big-heart');
 
-        // Sarı Kalpler Oluştur
         function createFloatingHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
             heart.innerHTML = '💛';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4-7 saniye arası
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
             document.body.appendChild(heart);
-            
             setTimeout(() => { heart.remove(); }, 7000);
         }
-        setInterval(createFloatingHeart, 600); // 0.6 saniyede bir kalp üret
+        setInterval(createFloatingHeart, 600); 
 
-        function startExperience() {
-            bgMusic.src = musicSource;
-            bgMusic.play().then(() => { playBtn.innerText = "⏸"; }).catch(e => { playBtn.innerText = "▶"; });
+        function startExperience(songFile) {
+            bgMusic.src = songFile;
+            bgMusic.play()
+                .then(() => { playBtn.innerText = "⏸"; })
+                .catch(e => { 
+                    console.log("Müzik hatası:", e);
+                    playBtn.innerText = "▶"; 
+                    alert("Müzik başlatılamadı, lütfen ekrana dokunun veya dosya adını kontrol edin.");
+                });
+
             document.getElementById('start-overlay').style.display = 'none';
             container.style.opacity = '1';
             loadSlide(0);
@@ -312,15 +289,12 @@
             clearInterval(stanzaInterval);
             stopFlash(); 
             
-            // Fade-Out Efekti
             photoArea.classList.add('fade-out');
             lyricsArea.classList.add('fade-out');
 
             setTimeout(() => {
-                // İçerikleri Değiştir
                 let currentItem = content[index];
                 
-                // Sınıfları Temizle
                 container.classList.remove('special-mode', 'time-mode');
                 bigHeart.style.display = 'none';
                 flashBg.style.opacity = '0';
@@ -350,7 +324,6 @@
                     else { container.classList.remove('reverse-layout'); }
                 }
 
-                // Fade-In Efekti
                 photoArea.classList.remove('fade-out');
                 lyricsArea.classList.remove('fade-out');
 
@@ -358,13 +331,15 @@
                 let stanzaIndex = 0;
                 showStanza(stanzas, stanzaIndex);
 
-                let duration = currentItem.isSpecial ? 8000 : 5500;
+                // GÜNCELLENMİŞ SÜRE AYARI (0.75 saniye daha hızlı)
+                let duration = currentItem.isSpecial ? 7250 : 4750;
+
                 stanzaInterval = setInterval(() => {
                     stanzaIndex = (stanzaIndex + 1) % stanzas.length;
                     showStanza(stanzas, stanzaIndex);
                 }, duration);
 
-            }, 500); // 0.5s bekle (fade-out süresi kadar)
+            }, 500); 
         }
 
         function startFlash() {
