@@ -28,7 +28,7 @@
             background-size: cover; background-position: center;
             opacity: 0; /* Normalde gizli */
             z-index: 1;
-            filter: brightness(0.3) grayscale(20%); /* Yazılar okunsun diye kararttım */
+            filter: brightness(0.3) grayscale(20%); 
             transition: opacity 0.5s ease;
         }
 
@@ -175,9 +175,7 @@
     </audio>
 
     <div id="bg-blur"></div>
-    
     <div id="chat-flash-bg"></div>
-    
     <div class="heart-beat" id="big-heart">❤</div>
 
     <div class="main-container" id="main-app" style="opacity: 0; transition: opacity 1s;">
@@ -203,12 +201,18 @@
     <script>
         const musicSource = "https://www.mboxdrive.com/Cafun%c3%a9%20-%20Tek%20It%20(Official%20Lyric%20Video).mp3";
         
-        // --- GÜNCELLENEN MESAJ LİSTESİ ---
+        // --- MESAJ LİSTESİ ---
         const chatImages = [
             "mesaj1.jpeg", "mesaj2.jpeg", "mesaj3.jpeg", "mesaj4.jpeg", 
             "mesaj5.jpeg", "mesaj6.jpeg", "mesaj7.jpeg", "mesaj8.jpeg", 
             "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"
         ];
+
+        // --- PRELOAD: FOTOĞRAFLARI ÖNCEDEN YÜKLE (Görünmeme sorununu çözer) ---
+        chatImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
 
         const content = [
             { 
@@ -291,13 +295,11 @@
             setTimeout(() => {
                 let currentItem = content[index];
                 
-                // --- ÖZEL MOD KONTROLÜ ---
                 if (currentItem.isSpecial) {
                     container.classList.add('special-mode');
                     bigHeart.style.display = 'block';
                     bigHeart.style.opacity = '0.4';
                     
-                    // Flashback'i Başlat (Hızlı Mesajlar)
                     startFlash();
                     
                 } else {
@@ -305,7 +307,6 @@
                     bigHeart.style.display = 'none';
                     photo.src = currentItem.img;
                     
-                    // Normal arka plan
                     bgBlur.style.opacity = '1';
                     bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
                     flashBg.style.opacity = '0';
@@ -338,14 +339,13 @@
             bgBlur.style.opacity = '0'; 
             
             let flashIndex = 0;
-            // İlk resmi hemen göster
             flashBg.style.backgroundImage = `url('${chatImages[0]}')`;
 
-            // 120ms = 0.12 saniye hızla değişir
+            // HIZ: 200 milisaniye (0.2 saniye)
             flashInterval = setInterval(() => {
                 flashIndex = (flashIndex + 1) % chatImages.length;
                 flashBg.style.backgroundImage = `url('${chatImages[flashIndex]}')`;
-            }, 120); 
+            }, 200); 
         }
 
         function stopFlash() {
@@ -372,7 +372,7 @@
                 slideIndex++;
                 loadSlide(slideIndex);
             } else {
-                alert("Seni Seviyorum Mavisu! 💛");
+                alert("Seni Düşündüğünden Çok Seviyorum 14 Şubat Sevgililer Günün Kutlu Olsunnnn olabilecek En İyi Sevgiliii.💛 💛💛");
             }
         }
 
