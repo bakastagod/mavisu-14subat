@@ -130,7 +130,6 @@
         .pure-love-mode #bg-blur { filter: brightness(0.6) blur(5px); }
         .pure-love-mode .photo-area { display: none; }
         .pure-love-mode .lyrics-area { flex: 1; width: 100%; }
-        /* Başlık stili */
         .pure-love-mode h2 { 
             font-family: 'Dancing Script', cursive; 
             font-size: 4rem; 
@@ -138,7 +137,6 @@
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
             margin-bottom: 20px;
         }
-        /* Alt metin stili */
         .pure-love-mode .poem-text {
             font-family: 'Montserrat', sans-serif;
             font-size: 2rem;
@@ -237,15 +235,8 @@
         setInterval(createIntroHearts, 300);
 
         const chatImages = ["mesaj1.jpeg", "mesaj2.jpeg", "mesaj3.jpeg", "mesaj4.jpeg", "mesaj5.jpeg", "mesaj6.jpeg", "mesaj7.jpeg", "mesaj8.jpeg", "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"];
+        const mavisuImages = ["son1.jpeg", "son2.jpeg", "son3.jpeg", "son4.jpeg", "son5.jpeg", "son6.jpeg", "son7.jpeg", "son8.jpeg", "son9.jpeg", "son10.jpeg", "son11.jpeg"];
         
-        // --- SON BÖLÜM İÇİN YENİ FOTOĞRAFLAR ---
-        const mavisuImages = [
-            "son1.jpeg", "son2.jpeg", "son3.jpeg", "son4.jpeg", 
-            "son5.jpeg", "son6.jpeg", "son7.jpeg", "son8.jpeg", 
-            "son9.jpeg", "son10.jpeg", "son11.jpeg"
-        ];
-        
-        // Tüm resimleri önceden yükle
         [...chatImages, ...mavisuImages].forEach(src => { const img = new Image(); img.src = src; });
 
         const startDate = new Date("2023-08-28");
@@ -260,7 +251,9 @@
             { title: "Dünyamın En Güzeli", img: "ani5.jpeg", text: "Nice yıldızlar kayıyor\nBenim kalbim senden başkasına kayamıyor\n\nNice bağımlılıklar var\nBenim aklım senden başkasına bağımlı olmayı kabul etmiyor\n\nNice günler var dertli, ızdıraplı, bahtsız\nSoğuk yaptığında buz gibisin be kansız.\n\nUtandığında yüzünde kırmızılar peyda eder.\nGülüşünde gözlerin oluyor birer fener.\n\nNedir bizdeki bu dert, keder?\nFenerbahçeliydi ya senin peder.🦁🦁\n\n16 milyon renk varmış; hepsi bende gri,\nHayatımda yalnızca sensin renkli.\n\nDünyanın 7 güzelliğini ardında bırakan\nSensin dünyamın güzeli." },
             { title: "Aşkın 6 Harflisi", img: "ani6.jpeg", text: "Aşkı üç harfli sanardım\nAltısıyla tanışana kadar\nSevdayı gelip geçen bir hâl sanardım\nSeni görünceye kadar\n\nKalemim pek âlâ sivrilir\nSana yazar iken şiir\n\nGüzelliğin öyle güzel idir\nÜzerimden çıkmayan bir kir\n\nKirin güzeli olur mu deme, olurmuş.\nÜzerimden ayrılmayan bu şey bir kusur muymuş?\n\nSanmam bunun bir kusur olduğunu\nSenden kaynaklı her şey pek âlâ pek hoş olurmuş.\n\nHayatımda yerin ayrı\nBoşluğun doldurulmaz oldu\n\nBir kış sabahı kudretli güneş eritti karı\nSen gönlümden erimeyen bir kar oldun.\n\nSon yıllarda kaybolmuştum,\nKendimi bitap buldum.\nBir kapıydım sevdaya kapalı,\nAnahtarımı sende buldum." },
             { title: "EHEHEHE🤭", img: "ani1.jpeg", text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" },
+            /* ZAMAN SAYACI */
             { title: "Biliyor musun? ⏳", isTime: true, img: "ani2.jpeg", text: "9. Sınıfa başlamadan hemen önceydi...\nTanıştığımız o ilk günden bugüne;\n\nSeninle geçen her saniye ömrüme ömür kattı.\nİyi ki varsın, iyi ki beni buldun." },
+            /* FİNAL: 12 NEDEN */
             { title: "Peki Neden Sen? 💛", isSpecial: true, img: "ani1.jpeg", text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve son olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen." },
             /* --- YENİ EKLENEN SON BÖLÜM --- */
             { title: "Bu Gülüşü Çok Seviyorum 💛", isPureLove: true, text: "Ve Bu Gülüşten\nASLA VAZGEÇMİCEM." }
@@ -334,6 +327,10 @@
 
             setTimeout(() => {
                 let currentItem = content[index];
+                
+                // --- ÇÖZÜM BURADA: BAŞLIĞI HER ZAMAN GÜNCELLE ---
+                title.innerText = currentItem.title; 
+                
                 container.classList.remove('special-mode', 'time-mode', 'pure-love-mode');
                 bigHeart.style.display = 'none';
                 flashBg.style.opacity = '0';
@@ -353,14 +350,12 @@
                     bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
                 } else if (currentItem.isPureLove) {
                     container.classList.add('pure-love-mode');
-                    title.innerText = currentItem.title;
                     stanzaText.innerText = currentItem.text;
                     stanzaText.classList.add('visible');
-                    startFlash(mavisuImages); // Mavisu fotolarını kullan
+                    startFlash(mavisuImages); 
                 } else {
                     photo.src = currentItem.img;
                     bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
-                    title.innerText = currentItem.title;
                 }
 
                 if (!currentItem.isSpecial && !currentItem.isTime && !currentItem.isPureLove) {
