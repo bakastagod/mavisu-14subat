@@ -19,7 +19,7 @@
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0.8; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
 
         /* GİRİŞ EKRANI */
-        #start-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #5c0000 0%, #1a0000 100%); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
+        #start-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #5c0000 0%, #1a0000 100%); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; transition: opacity 0.8s ease; }
         .intro-heart { position: absolute; top: -10%; color: #ff3366; animation: fall linear forwards; z-index: 90; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .start-card { background: rgba(0, 0, 0, 0.6); border: 2px solid #ffd700; border-radius: 30px; padding: 40px; text-align: center; box-shadow: 0 0 50px rgba(255, 51, 102, 0.3); max-width: 90%; width: 450px; z-index: 101; animation: zoomIn 1s ease; }
@@ -30,7 +30,9 @@
         .song-btn:hover { transform: scale(1.05) translateY(-3px); background: linear-gradient(45deg, #ffd700, #ffcc00); color: #5c0000; }
 
         /* ANA SLAYT YAPISI */
-        .main-container { position: relative; z-index: 10; display: flex; height: 100%; width: 100%; justify-content: center; align-items: center; transition: all 0.8s ease; }
+        .main-container { position: relative; z-index: 10; display: flex; height: 100%; width: 100%; justify-content: center; align-items: center; transition: all 0.8s ease; opacity: 0; pointer-events: none; /* Başlangıçta gizli ve tıklanamaz */ }
+        .main-container.active { opacity: 1; pointer-events: all; } /* Aktif olunca görünür */
+
         .reverse-layout { flex-direction: row-reverse; }
         .photo-area { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; height: 100vh; transition: opacity 0.5s ease, transform 0.5s ease; }
         .fade-out { opacity: 0; transform: scale(0.95); }
@@ -58,7 +60,7 @@
         .pure-love-mode h2 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); margin-bottom: 20px; }
         .pure-love-mode .poem-text { font-family: 'Montserrat', sans-serif; font-size: 2rem; letter-spacing: 2px; color: white; text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); text-transform: uppercase; }
 
-        /* --- MEKTUP MODU (LETTER MODE) --- */
+        /* --- MEKTUP MODU --- */
         .letter-mode .photo-area, .letter-mode .lyrics-area { display: none; }
         #letter-stage { display: none; width: 100%; height: 100vh; justify-content: center; align-items: center; flex-direction: column; position: relative; z-index: 50; }
         
@@ -74,25 +76,27 @@
         .flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
             border-left: 150px solid transparent; border-right: 150px solid transparent;
-            border-top: 110px solid #e74c3c; /* Kapak Rengi */
-            transform-origin: top; transition: transform 0.6s ease-in-out; z-index: 5;
+            border-top: 110px solid #e74c3c;
+            transform-origin: top; transition: transform 0.6s ease-in-out; 
+            z-index: 20; 
         }
         .pocket {
             position: absolute; bottom: 0; left: 0; width: 0; height: 0;
             border-left: 150px solid #c0392b; border-right: 150px solid #c0392b;
             border-top: 100px solid transparent; border-bottom: 100px solid #a93226;
-            z-index: 4;
+            z-index: 10; 
         }
         .letter-photo {
             position: absolute; bottom: 10px; width: 260px; height: auto;
             max-height: 250px; object-fit: cover; border: 5px solid white;
             transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2; transform: translateY(0);
+            z-index: 5; 
+            transform: translateY(0);
         }
         
         /* Zarf Açılma Animasyonu */
         .envelope.open .flap { transform: rotateX(180deg); z-index: 1; }
-        .envelope.open .letter-photo { transform: translateY(-180px); z-index: 6; }
+        .envelope.open .letter-photo { transform: translateY(-180px); }
 
         /* Final Mesajı */
         #final-message-container {
@@ -160,7 +164,7 @@
     <div id="chat-flash-bg"></div>
     <div class="heart-beat" id="big-heart">❤</div>
 
-    <div class="main-container" id="main-app" style="opacity: 0; transition: opacity 1s;">
+    <div class="main-container" id="main-app">
         <div class="photo-area" id="photo-area">
             <img id="current-photo" class="photo-card" src="ani1.jpeg">
         </div>
@@ -180,10 +184,9 @@
     </div>
 
     <script>
-        // Intro Kalpleri
         function createIntroHearts() {
             const overlay = document.getElementById('start-overlay');
-            if (overlay.style.display === 'none') return;
+            if (overlay.style.opacity === '0' || overlay.style.display === 'none') return; // Sadece giriş ekranındaysa
             const heart = document.createElement('div');
             heart.classList.add('intro-heart');
             heart.innerHTML = Math.random() > 0.5 ? '💛' : '❤️';
@@ -195,7 +198,6 @@
         }
         setInterval(createIntroHearts, 300);
 
-        // Havai Fişek Fonksiyonu
         function createFirework() {
             const colors = ['#ff0000', '#ffd700', '#ff69b4', '#00ff00', '#00ffff'];
             const x = Math.random() * window.innerWidth;
@@ -216,31 +218,23 @@
                 particle.animate([
                     { transform: 'translate(0, 0) scale(1)', opacity: 1 },
                     { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 1000,
-                    easing: 'ease-out'
-                });
+                ], { duration: 1000, easing: 'ease-out' });
 
                 document.body.appendChild(particle);
                 setTimeout(() => particle.remove(), 1000);
             }
         }
 
-        // Zarf Açma Fonksiyonu
         function openEnvelope() {
             const envelope = document.querySelector('.envelope');
             const msg = document.getElementById('final-message-container');
             
             if (!envelope.classList.contains('open')) {
                 envelope.classList.add('open');
-                
-                // Müzik sesini biraz açabiliriz veya efekt verebiliriz
-                
                 setTimeout(() => {
-                    // 1 saniye sonra patlamalar başlasın
                     msg.style.opacity = '1';
-                    setInterval(createFirework, 200); // Sürekli havai fişek
-                    setInterval(createFloatingHeart, 100); // Bol bol kalp
+                    setInterval(createFirework, 200); 
+                    setInterval(createFloatingHeart, 100); 
                 }, 1000);
             }
         }
@@ -266,7 +260,6 @@
             { title: "Biliyor musun? ⏳", isTime: true, img: "ani2.jpeg", text: "9. Sınıfa başlamadan hemen önceydi...\nTanıştığımız o ilk günden bugüne;\n\nSeninle geçen her saniye ömrüme ömür kattı.\nİyi ki varsın, iyi ki beni buldun." },
             { title: "Peki Neden Sen? 💛", isSpecial: true, img: "ani1.jpeg", text: "1) Seni seviyorum. Her şeyimle seviyorum. Seni mutlu etmek istiyorum. Gülümsemeni görmek istiyorum. Gülmesini istediğim tek kişisin bu yüzden sen.\n\n2) İsmini duyduğum o ilk andan beri içimde bir his vardı. İçimden sana karşı fazla yakın olduğumu hissediyordum. Ama bu garipti çünkü seni hiç tanımıyordum bile. Ama o his beni yanıltmadı. Gerçektende o his doğruydu. Seni bekliyordum. Bu yüzden sen.\n\n3) Okulun ilk günü seni gördüm. Ama kimsenin kim olduğunu bilmiyordum. Gözlerimi senden alamadım. Biliyordum onun sen olduğunu hissedebiliyordum. Bu yüzden sen.\n\n4) Daha önce hiç böyle hissetmemiştim birisine karşı. İlk kez deneyimlediğim çok güzel bi duyguydu. Bu duyguyu bana yaşatan ilk ve tek olacak kişisin. Bu yüzden sen.\n\n5) Tatlı ve narin birisi olduğunu da anlamıştım. En çok hoşuma giden kısmında burasıydı işte. Çok düşüncelisin, arkadaşlarını hep önemsiyorsun. Bu aşırı hoşuma gidiyor çok ama çok tatlısın. (arada kıskandığım oluyor çaktırma ŞMXMDMSMFMSFNDEMDN) Bu yüzden sen.\n\n6) Seninle geçirdiğim vakitler en eğlendiğim zamanlar oldu. Oynadığımız oyunlar, genshinde yaptığımız ritüeller. Sayende 2. Shorkeperı (yazilisini hala bilmiyom imdat) çıkarınca bile eğleniyordum. Bu yüzden sen.\n\n7) Bana sırdaş oldun. Arkadaş oldun. Her şeyimi çekinmeden anlatabileceğim tek kişi oldun. Bu yüzden sen.\n\n8) Hedefleri olan bir kızsın. Kendi oyununu yapmak istiyorsun. O oyunu yapacaksın ve bana da oynattıracaksın sözün vardı Elinle bana. Çoğu şeyi unuturum ama bunu unutmadım hehehehehe. Bu yüzden sen.\n\n9) Benimle matching pfp bile yaptın. Benim gibi sürekli profil değiştiren biri bile onları asla değiştirmek istemedi. Hoşuma gidiyordu. Bu yüzden sen.\n\n10) Sürekli yanında olmak istiyorum. İyi zamanında daha da iyi olman için, kötü zamanında yalnız kalmayıp beraber kötüyü yaşayıp atlatmak için, kendini çaresiz hissettiğin anlarda sana umut olmak için, yaşlanırken bile seninle yaşlanmak, ölürken bile seninle ölmek için sen.\n\n11) Nadiren dua etsem bile o dualarda eksilmeyen tek kısım sensin. Bu yüzden sen.\n\n12) Ve son olarak benim sevgilimsin. Bana göre en tatlı, en güzel, en mükemmel kişi sensin. İşte bu yüzden sen." },
             { title: "Bu Gülüşü Çok Seviyorum 💛", isPureLove: true, text: "Ve Bu Gülüşten\nASLA VAZGEÇMİCEM." },
-            /* --- YENİ EKLENEN FİNAL MEKTUP --- */
             { isLetter: true }
         ];
 
@@ -288,7 +281,6 @@
         const whiteFlash = document.getElementById('white-flash');
         const letterStage = document.getElementById('letter-stage');
 
-        // Ana Akış Kalp Animasyonu (Girişten Sonra)
         function createFloatingHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
@@ -304,9 +296,39 @@
         function startExperience(songFile) {
             bgMusic.src = songFile;
             bgMusic.play().then(() => { playBtn.innerText = "⏸"; }).catch(e => { playBtn.innerText = "▶"; });
-            document.getElementById('start-overlay').style.display = 'none';
-            container.style.opacity = '1';
+            
+            // Başlangıç ekranını gizle, ana konteyneri göster
+            document.getElementById('start-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('start-overlay').style.display = 'none';
+            }, 800);
+            
+            container.classList.add('active'); // Ana uygulamayı görünür ve tıklanabilir yap
             loadSlide(0);
+        }
+
+        // --- YENİ FONKSİYON: BAŞLANGIÇ EKRANINA DÖNÜŞ ---
+        function returnToStart() {
+            // Müziği durdur
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            playBtn.innerText = "▶";
+
+            // Slaytları temizle
+            clearInterval(stanzaInterval);
+            clearInterval(loveInterval);
+            stopFlash();
+
+            // Ana konteyneri gizle
+            container.classList.remove('active'); 
+
+            // Giriş ekranını geri getir
+            const overlay = document.getElementById('start-overlay');
+            overlay.style.display = 'flex';
+            // Küçük bir gecikmeyle opacity'yi artır ki geçiş yumuşak olsun
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+            }, 50);
         }
 
         function togglePlay() {
@@ -341,25 +363,22 @@
             setTimeout(() => {
                 let currentItem = content[index];
                 
-                // Başlık Kontrolü
                 if (currentItem.title) title.innerText = currentItem.title;
                 
-                // Temizlik
                 container.classList.remove('special-mode', 'time-mode', 'pure-love-mode', 'letter-mode');
                 bigHeart.style.display = 'none';
                 flashBg.style.opacity = '0';
                 bgBlur.style.opacity = '1';
                 stanzaText.classList.remove('visible'); 
                 dayCounter.style.display = 'none';
-                letterStage.style.display = 'none'; // Mektubu gizle
-                document.querySelector('.controls').style.display = 'flex'; // Kontrolleri göster
+                letterStage.style.display = 'none'; 
+                document.querySelector('.controls').style.display = 'flex'; 
 
                 if (currentItem.isLetter) {
-                    // --- MEKTUP MODU ---
                     container.classList.add('letter-mode');
                     letterStage.style.display = 'flex';
-                    bgBlur.style.opacity = '0.3'; // Arka planı karart
-                    document.querySelector('.controls').style.display = 'none'; // Kontrolleri gizle (Sürpriz için)
+                    bgBlur.style.opacity = '0.3'; 
+                    document.querySelector('.controls').style.display = 'none'; 
                 } 
                 else if (currentItem.isSpecial) {
                     container.classList.add('special-mode');
@@ -393,7 +412,8 @@
                     let stanzas = currentItem.text.split('\n\n');
                     let stanzaIndex = 0;
                     showStanza(stanzas, stanzaIndex);
-                    let duration = currentItem.isSpecial ? 7250 : 4750;
+                    // SÜRE: Final maddeler için 9250ms, normal şiirler için 4750ms
+                    let duration = currentItem.isSpecial ? 9250 : 4750;
                     stanzaInterval = setInterval(() => {
                         stanzaIndex = (stanzaIndex + 1) % stanzas.length;
                         showStanza(stanzas, stanzaIndex);
@@ -435,12 +455,20 @@
                 slideIndex++;
                 loadSlide(slideIndex);
             } else {
-                // Son slaytta zaten mektup var, buraya düşmez ama güvenlik için:
                 console.log("Son.");
             }
         }
 
-        function prevSlide() { if (slideIndex > 0) { slideIndex--; loadSlide(slideIndex); } }
+        // --- GÜNCELLENEN PREVSLIDE FONKSİYONU ---
+        function prevSlide() {
+            if (slideIndex > 0) {
+                slideIndex--;
+                loadSlide(slideIndex);
+            } else {
+                // Eğer ilk slayttaysak ve geri basılırsa başlangıca dön
+                returnToStart();
+            }
+        }
     </script>
 </body>
 </html>
