@@ -208,16 +208,16 @@
             "mesaj9.jpeg", "mesaj10.jpeg", "mesaj11.jpeg", "mesaj12.jpeg"
         ];
 
-        // --- PRELOAD ---
+        // --- FOTOĞRAFLARI ÖNCEDEN YÜKLE ---
         chatImages.forEach(src => {
             const img = new Image();
             img.src = src;
         });
 
-        // --- GÜN HESAPLAMA ---
-        // 28 Ağustos 2023 (9. sınıf başlamadan 1 hafta önce tahmini)
-        const startDate = new Date("2023-08-28");
+        // --- GÜN HESAPLAMA (Otomatik) ---
+        const startDate = new Date("2023-08-28"); // Tanışma tarihi
         const today = new Date();
+        // Gün farkını hesapla (Milisaniye -> Gün)
         const diffTime = Math.abs(today - startDate);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
@@ -257,10 +257,10 @@
                 img: "ani1.jpeg", 
                 text: "Hayatımın güzelisin.🦧\nHer şiirimin temel fikrisin.📜\n\nPembe ceketin ile🩷\nMisler gibi kokan bir lalesin.🌷\n\nBüyük dediğin fındık burnunla,🤥\nAltından parlak saçınla,👱🏿\n\nOlgun dudaklarınla,👄\nBeni benden alıyorsun durgun bakışlarınla.🐷\n\nGüzelliğine şiir değil tarih yazılır,🪖\nUnutkanlığın anlatılmaz yaşanılır.💭\n\nHer gülüşün olay koparır,\n(Yanına 30 m yaklaşma) Isırır.⚠️" 
             },
-            /* --- YENİ EKLENEN GÜN SAYACI --- */
+            /* --- ZAMAN SAYACI (BURAYA EKLENDİ) --- */
             {
-                title: "Zaman Nasıl da Geçti... ⏳",
-                img: "ani2.jpeg", /* Buraya uygun bir fotoğraf koyabilirsin */
+                title: "Biliyor musun? ⏳",
+                img: "ani1.jpeg", /* Buraya en sevdiğin fotonuzu koy */
                 text: "9. Sınıfa başlamadan hemen önceydi...\nTanıştığımız o ilk günden bugüne;\n\nTam " + diffDays + " Gün Oldu.\n\nSeninle geçen her saniye ömrüme ömür kattı.\nİyi ki varsın, iyi ki beni buldun."
             },
             /* --- FİNAL BÖLÜMÜ --- */
@@ -312,14 +312,11 @@
                     container.classList.add('special-mode');
                     bigHeart.style.display = 'block';
                     bigHeart.style.opacity = '0.4';
-                    
                     startFlash();
-                    
                 } else {
                     container.classList.remove('special-mode');
                     bigHeart.style.display = 'none';
                     photo.src = currentItem.img;
-                    
                     bgBlur.style.opacity = '1';
                     bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
                     flashBg.style.opacity = '0';
