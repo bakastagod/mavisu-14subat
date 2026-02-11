@@ -318,3 +318,98 @@
 
             setTimeout(() => {
                 // İçerikleri Değiştir
+                let currentItem = content[index];
+                
+                // Sınıfları Temizle
+                container.classList.remove('special-mode', 'time-mode');
+                bigHeart.style.display = 'none';
+                flashBg.style.opacity = '0';
+                bgBlur.style.opacity = '1';
+                stanzaText.classList.remove('visible'); 
+                dayCounter.style.display = 'none';
+
+                if (currentItem.isSpecial) {
+                    container.classList.add('special-mode');
+                    bigHeart.style.display = 'block';
+                    bigHeart.style.opacity = '0.4';
+                    startFlash();
+                } else if (currentItem.isTime) {
+                    container.classList.add('time-mode');
+                    dayCounter.style.display = 'block';
+                    animateValue(dayCounter, 0, diffDays, 2500);
+                    bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
+                } else {
+                    photo.src = currentItem.img;
+                    bgBlur.style.backgroundImage = `url('${currentItem.img}')`;
+                }
+
+                title.innerText = currentItem.title;
+
+                if (!currentItem.isSpecial && !currentItem.isTime) {
+                    if (index % 2 !== 0) { container.classList.add('reverse-layout'); } 
+                    else { container.classList.remove('reverse-layout'); }
+                }
+
+                // Fade-In Efekti
+                photoArea.classList.remove('fade-out');
+                lyricsArea.classList.remove('fade-out');
+
+                let stanzas = currentItem.text.split('\n\n');
+                let stanzaIndex = 0;
+                showStanza(stanzas, stanzaIndex);
+
+                let duration = currentItem.isSpecial ? 8000 : 5500;
+                stanzaInterval = setInterval(() => {
+                    stanzaIndex = (stanzaIndex + 1) % stanzas.length;
+                    showStanza(stanzas, stanzaIndex);
+                }, duration);
+
+            }, 500); // 0.5s bekle (fade-out süresi kadar)
+        }
+
+        function startFlash() {
+            flashBg.style.opacity = '1';
+            bgBlur.style.opacity = '0'; 
+            let flashIndex = 0;
+            flashBg.style.backgroundImage = `url('${chatImages[0]}')`;
+            flashInterval = setInterval(() => {
+                flashIndex = (flashIndex + 1) % chatImages.length;
+                flashBg.style.backgroundImage = `url('${chatImages[flashIndex]}')`;
+            }, 200); 
+        }
+
+        function stopFlash() {
+            clearInterval(flashInterval);
+            flashBg.style.opacity = '0';
+        }
+
+        function showStanza(stanzas, index) {
+            stanzaText.classList.remove('visible'); 
+            setTimeout(() => {
+                stanzaText.innerText = stanzas[index];
+                stanzaText.classList.add('visible'); 
+                
+                let dots = "";
+                for(let i=0; i<stanzas.length; i++) { dots += (i === index) ? "● " : "○ "; }
+                indicator.innerText = dots;
+            }, 600); 
+        }
+
+        function nextSlide() {
+            if (slideIndex < content.length - 1) {
+                slideIndex++;
+                loadSlide(slideIndex);
+            } else {
+                alert("Seni Düşündüğünden Çok Seviyorum 14 Şubat Sevgililer Günün Kutlu Olsunnnn olabilecek En İyi Sevgiliii.💛 💛💛");
+            }
+        }
+
+        function prevSlide() {
+            if (slideIndex > 0) {
+                slideIndex--;
+                loadSlide(slideIndex);
+            }
+        }
+    </script>
+</body>
+</html>
